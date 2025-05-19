@@ -2,14 +2,14 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
 interface IStatusIndicatorProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   color: string;
 }
 
 const StatusIndicator = ({ color, children }: IStatusIndicatorProps) => {
   return (
     <View style={styles.container}>
-      <Text>{children}</Text>
+      {children && <Text style={styles.tekst}>{children}</Text>}
       <View style={[styles.dot, { backgroundColor: color }]} />
     </View>
   );
@@ -23,10 +23,12 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    marginLeft: 5,
+    width: 20,
+    height: 20,
+    borderRadius: 50,
+  },
+  tekst: {
+    color: "#00ffff",
   },
 });
 

@@ -18,11 +18,13 @@ export default function Home() {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
+        style={styles.item}
         data={favouriteRoom}
         renderItem={({ item }) => <RoomCard room={item} />}
         keyExtractor={(item) => item.id.toString()}
       />
       <FlatList
+        style={styles.item}
         data={favouriteDevice}
         renderItem={({ item }) => getDeviceComponent(item)}
         keyExtractor={(item) => item.id.toString()}
@@ -32,10 +34,13 @@ export default function Home() {
 }
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    padding: 10,
+    flexDirection: "row",
     flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  item: {
+    width: "50%",
   },
 });

@@ -1,22 +1,22 @@
-import LockUnlocked from "../../assets/svg/lock_unlocked.svg";
-import LockLocked from "../../assets/svg/lock_locked.svg";
+import { Image, StyleSheet, ImageStyle } from "react-native";
 
 interface RoomVisibilityProps {
   visibility: "public" | "private";
-  className?: string;
+  style?: ImageStyle;
 }
 
 export default function RoomVisibility({
   visibility,
-  className,
+  style,
 }: RoomVisibilityProps) {
-  return null;
-  //   <img
-  //     src={visibility === "public" ? LockUnlocked : LockLocked}
-  //     alt="Lock"
-  //     width="24"
-  //     height="24"
-  //     className={className}
-  //   />
-  // );
+  const imgSource = visibility
+    ? require("../../assets/images/lock_unlocked.png")
+    : require("../../assets/images/lock_locked.png");
+  return <Image style={[styles.image, style]} source={imgSource} />;
 }
+const styles = StyleSheet.create({
+  image: {
+    width: 24,
+    height: 24,
+  },
+});
