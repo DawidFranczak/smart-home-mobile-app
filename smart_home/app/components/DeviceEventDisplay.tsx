@@ -14,15 +14,15 @@ export default function DeviceEventDisplay({
 }: IDeviceEventProps) {
   return (
     <Text style={styles.eventText}>
-      {event} - {action} - {device}
+      {event}-{action}-{device}
     </Text>
   );
 }
 
 const styles = StyleSheet.create({
   eventText: {
-    fontSize: 14,
-    color: "#000",
+    fontSize: 10,
+    color: "#00ffff",
     marginVertical: 5,
   },
 });

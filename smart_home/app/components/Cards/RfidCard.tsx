@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
-import { useRouter } from "expo-router";
+import { Text, StyleSheet, ScrollView, FlatList } from "react-native";
 import DeviceCardContainer from "@/app/ui/DeviceCardContainer";
 import { IRfid } from "@/app/interfaces/IRfid";
 import DeviceEventDisplay from "../DeviceEventDisplay";
@@ -18,8 +10,6 @@ interface RfidCardProps {
 }
 
 export default function RfidCard({ rfid }: RfidCardProps) {
-  const navigate = useRouter();
-  console.log(rfid);
   return (
     <DeviceCardContainer
       isFavourite={rfid.is_favourite}
@@ -28,34 +18,33 @@ export default function RfidCard({ rfid }: RfidCardProps) {
       isOnline={rfid.is_online}
       id={rfid.id}
     >
-      <View style={styles.eventsContainer}>
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-          <FlatList
-            data={rfid.events}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-              <DeviceEventDisplay
-                key={item.id}
-                action={item.action}
-                device={item.device}
-                event={item.event}
-              />
-            )}
-          />
-          <Text>Ilość kart: {rfid.cards.length}</Text>
-          <StyledLink type="button" to={`/rfid/${rfid.id}/`}>
-            Wybierz
-          </StyledLink>
-        </ScrollView>
-      </View>
+      <ScrollView contentContainerStyle={styles.eventContainer}>
+        <FlatList
+          data={rfid.events}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <DeviceEventDisplay
+              key={item.id}
+              action={item.action}
+              device={item.device}
+              event={item.event}
+            />
+          )}
+        />
+      </ScrollView>
+      <Text style={styles.tekst}>Ilość kart: {rfid.cards.length}</Text>
+      <StyledLink type="button" to={`/rfid/${rfid.id}/`}>
+        Wybierz
+      </StyledLink>
     </DeviceCardContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  eventsContainer: {},
-  scrollContainer: {
-    paddingBottom: 10,
+  eventContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   button: {
     backgroundColor: "#00bfff",
@@ -68,5 +57,8 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 16,
     textAlign: "center",
+  },
+  tekst: {
+    color: "#00ffff",
   },
 });
