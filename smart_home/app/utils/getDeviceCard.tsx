@@ -15,4 +15,5 @@ export default function getDeviceComponent(device: any) {
     case "aquarium":
       return <AquariumCard aquarium={device} key={device.id} />;
   }
+  return null;
 }

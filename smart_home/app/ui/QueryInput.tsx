@@ -1,12 +1,12 @@
 import React, { useState, useRef } from "react";
 import {
-  View,
   TextInput,
   Image,
   TouchableOpacity,
   StyleSheet,
-  Text,
   ViewStyle,
+  Animated,
+  Dimensions,
 } from "react-native";
 
 interface IQueryInputProps {
@@ -14,19 +14,31 @@ interface IQueryInputProps {
   extraStyle?: ViewStyle;
 }
 
+const screenWidth = Dimensions.get("window").width;
+
 const QueryInput = ({ onChange, extraStyle }: IQueryInputProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef<TextInput>(null);
+  const animatedWidth = useRef(new Animated.Value(40)).current;
 
   function handleIconClick() {
     if (inputRef.current) {
       inputRef.current.focus();
     }
+
+    Animated.timing(animatedWidth, {
+      toValue: isExpanded ? 40 : screenWidth,
+      duration: 1000,
+      useNativeDriver: false,
+    }).start();
+
     setIsExpanded((prev) => !prev);
   }
 
   return (
-    <View style={[styles.container, isExpanded && styles.expanded]}>
+    <Animated.View
+      style={[styles.container, extraStyle, { width: animatedWidth }]}
+    >
       <TouchableOpacity onPress={handleIconClick}>
         <Image
           source={require("../../assets/images/search.png")}
@@ -38,26 +50,23 @@ const QueryInput = ({ onChange, extraStyle }: IQueryInputProps) => {
         style={[styles.input, isExpanded && styles.expandedInput]}
         onChangeText={(text) => onChange(text)}
         placeholder="Search..."
+        placeholderTextColor="#00ffff88"
       />
-    </View>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: 24,
+    height: 40,
     borderRadius: 5,
     borderWidth: 2,
     borderColor: "#00ffff",
     backgroundColor: "#1a2a44dd",
     color: "#00ffff",
     padding: 5,
-    display: "flex",
-    justifyContent: "center",
+    flexDirection: "row",
     alignItems: "center",
-  },
-  expanded: {
-    width: 150,
   },
   input: {
     width: 0,
@@ -65,10 +74,9 @@ const styles = StyleSheet.create({
     color: "#00ffff",
     backgroundColor: "transparent",
     borderWidth: 0,
-    outline: "none",
   },
   expandedInput: {
-    width: 100,
+    width: "100%",
     paddingLeft: 10,
   },
   searchIcon: {
