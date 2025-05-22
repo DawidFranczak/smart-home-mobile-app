@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Animated, ImageBackground, StyleSheet, View } from "react-native";
 import { useRoute } from "@react-navigation/native";
+import { usePathname } from "expo-router";
 
 const backgrounds: Record<string, any> = {
   Home: require("../../assets/images/home_bg.png"),
@@ -19,9 +20,10 @@ const BackgroundChanger: React.FC<{ children: React.ReactNode }> = ({
   const route = useRoute();
   const [currentBg, setCurrentBg] = useState(backgrounds[route.name] || null);
   const fadeAnim = useRef(new Animated.Value(1)).current;
+  const pathName = usePathname();
+  const screenName = pathName.split("/")[1];
   useEffect(() => {
-    let newBg = backgrounds["Login"];
-    if (route.params) newBg = backgrounds[route.params.screen];
+    let newBg = backgrounds[screenName];
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 300,
@@ -35,7 +37,7 @@ const BackgroundChanger: React.FC<{ children: React.ReactNode }> = ({
         useNativeDriver: true,
       }).start();
     });
-  }, [route.name]);
+  }, [screenName]);
   return (
     <ImageBackground source={currentBg} style={styles.background}>
       <Animated.View style={[styles.container, { opacity: fadeAnim }]}>

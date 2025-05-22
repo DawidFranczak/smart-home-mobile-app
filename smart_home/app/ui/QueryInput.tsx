@@ -1,9 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
+  View,
   TextInput,
   Image,
   TouchableOpacity,
   StyleSheet,
+  Text,
   ViewStyle,
   Animated,
   Dimensions,
@@ -22,8 +24,10 @@ const QueryInput = ({ onChange, extraStyle }: IQueryInputProps) => {
   const animatedWidth = useRef(new Animated.Value(40)).current;
 
   function handleIconClick() {
-    if (inputRef.current) {
+    if (inputRef.current && !isExpanded) {
       inputRef.current.focus();
+    } else {
+      inputRef.current?.blur();
     }
 
     Animated.timing(animatedWidth, {

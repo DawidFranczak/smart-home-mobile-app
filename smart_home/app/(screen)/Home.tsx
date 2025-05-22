@@ -16,7 +16,6 @@ export default function Home() {
     setFavouriteDevice(favouriteData.devices);
   }, [favouriteData]);
   function handleQueryChange(query: string) {
-    console.log("query", query);
     setFavouriteDevice(
       favouriteData.devices.filter((device: IDevice) => {
         return device.name.toLowerCase().includes(query.toLowerCase());

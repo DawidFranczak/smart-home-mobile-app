@@ -8,7 +8,6 @@ export default function getDeviceComponent(device: any) {
     // case "lamp":
     //   return <LampCard lamp={device} key={device.id} />;
     case "rfid":
-      console.log(device);
       return <RfidCard rfid={device} key={device.id} />;
     // case "button":
     //   return <ButtonCard button={device} key={device.id} />;
