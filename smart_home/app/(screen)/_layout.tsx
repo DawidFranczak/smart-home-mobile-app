@@ -1,14 +1,11 @@
 import { Slot } from "expo-router";
-import RequireAuth from "../RequireAuth";
-import BackgroundChanger from "../components/BackgroundChanger";
-import Navbar from "../components/Navbar";
+import Navbar from "../../src/components/Navbar";
+import { ScrollView, StyleSheet, View } from "react-native";
 export default function _layout() {
   return (
-    <RequireAuth>
-      <BackgroundChanger>
-        <Slot />
-        <Navbar />
-      </BackgroundChanger>
-    </RequireAuth>
+    <>
+      <Slot />
+      <Navbar />
+    </>
   );
 }

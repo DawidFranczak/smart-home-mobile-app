@@ -1,3 +1,5 @@
+import { useAuth } from "@/src/context/AuthContext";
+import useLoginMutation from "@/src/hooks/queries/useLoginMutation";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -8,8 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useAuth } from "./context/AuthContext";
-import useLoginMutation from "./hooks/queries/useLoginMutation";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -22,12 +22,12 @@ export default function Login() {
   useEffect(() => {
     if (token) {
       login(token);
-      router.replace("/(screen)/Home");
+      router.push("/Home");
     }
   }, [token, login]);
 
   useEffect(() => {
-    if (access) router.replace("/(screen)/Home");
+    if (access) router.push("/Home");
   }, []);
 
   useEffect(() => {

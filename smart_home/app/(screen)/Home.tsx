@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
-import useFavouriteQuery from "../hooks/queries/useFavouriteQuery";
-import { IRoom } from "../interfaces/IRoom";
-import { IDevice } from "../interfaces/IDevice";
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native";
-import getDeviceComponent from "../utils/getDeviceCard";
-import RoomCard from "../components/Cards/RoomCard";
-import QueryInput from "../ui/QueryInput";
+import { IRoom } from "../../src/interfaces/IRoom";
+import { IDevice } from "../../src/interfaces/IDevice";
+import { StyleSheet, Text, View, Dimensions } from "react-native";
+import useFavouriteQuery from "@/src/hooks/queries/useFavouriteQuery";
+import QueryInput from "@/src/ui/QueryInput";
+import RoomCard from "@/src/components/Cards/RoomCard";
+import getDeviceComponent from "@/src/utils/getDeviceCard";
+import { FlatList } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
+
 export default function Home() {
   const [favouriteRoom, setFavouriteRoom] = useState<IRoom[]>([]);
   const [favouriteDevice, setFavouriteDevice] = useState<IDevice[]>([]);
@@ -29,34 +33,51 @@ export default function Home() {
   }
   if (!favouriteDevice || !favouriteRoom) return null;
   return (
-    <SafeAreaView>
+    <>
       <QueryInput onChange={handleQueryChange} />
-      <View style={styles.cardContainer}>
+
+      <View style={styles.section}>
+        <Text style={styles.title}>Pokoje</Text>
         <FlatList
-          style={styles.item}
           data={favouriteRoom}
-          renderItem={({ item }) => <RoomCard room={item} />}
+          numColumns={2}
           keyExtractor={(item) => item.id.toString()}
-        />
-        <FlatList
-          style={styles.item}
-          data={favouriteDevice}
-          renderItem={({ item }) => getDeviceComponent(item)}
-          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.item}>
+              <RoomCard key={item.id} room={item} />
+            </View>
+          )}
         />
       </View>
-    </SafeAreaView>
+      <View style={styles.section}>
+        <Text style={styles.title}>Urządzenia</Text>
+        <FlatList
+          data={favouriteDevice}
+          numColumns={2}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.item}>{getDeviceComponent(item)}</View>
+          )}
+        />
+      </View>
+    </>
   );
 }
+
 const styles = StyleSheet.create({
-  cardContainer: {
-    flex: 1,
-    padding: 10,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
+  section: {
+    marginBottom: 20,
+    paddingHorizontal: 10,
+  },
+  title: {
+    width: "100%",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 18,
+    marginBottom: 10,
+    color: "#0ff",
   },
   item: {
-    width: "50%",
+    width: (screenWidth - 40) / 2,
   },
 });
