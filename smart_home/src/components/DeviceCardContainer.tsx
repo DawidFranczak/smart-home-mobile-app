@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Animated, Pressable } from "react-native";
-import FavouriteStar from "../../src/components/FavouriteStar";
+import FavouriteStar from "./FavouriteStar";
 import Header from "../ui/Header";
-import WifiStrength from "./WiFiStrength";
+import WifiStrength from "../ui/WiFiStrength";
 
 interface IDeviceCardContainerProps {
   isFavourite: boolean;

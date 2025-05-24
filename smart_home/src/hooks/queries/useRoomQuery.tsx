@@ -14,6 +14,6 @@ export default function useRoomQuery(id: number | undefined) {
   });
   return {
     status: data?.status,
-    roomData: data?.data as IRoom,
+    roomData: data?.data,
   };
 }

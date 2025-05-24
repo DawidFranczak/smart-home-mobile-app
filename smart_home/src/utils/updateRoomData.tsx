@@ -5,7 +5,7 @@ export default function updateRoomData(
   queryClient: QueryClient,
   response: { status: number; data: IRoom }
 ) {
-  const oldData = queryClient.getQueryData(["rooms"]) as {
+  const oldData = queryClient.getQueryData(["room"]) as {
     status: number;
     data: IRoom[];
   };
@@ -13,5 +13,5 @@ export default function updateRoomData(
     if (oldData.data[i].id === response.data.id)
       oldData.data[i] = response.data;
   }
-  queryClient.setQueryData(["rooms"], oldData);
+  queryClient.setQueryData(["room"], oldData);
 }

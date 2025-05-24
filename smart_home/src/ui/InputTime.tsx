@@ -15,7 +15,6 @@ const InputTime = ({ initialTime, onChange, extraStyle }: InputTimeProps) => {
   }, [data]);
 
   const updateTime = (text: string) => {
-    // Ensure the time is formatted correctly (HH:mm)
     const formattedTime = text.slice(0, 5);
     setData(formattedTime);
   };

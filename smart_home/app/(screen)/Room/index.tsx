@@ -1,22 +1,38 @@
-import { useState } from "react";
-
+import { FlatList, StyleSheet, View, Dimensions } from "react-native";
 import useRoomQuery from "@/src/hooks/queries/useRoomQuery";
 import Button from "@/src/ui/Button";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import RoomCard from "@/src/components/Cards/RoomCard";
+import { IRoom } from "@/src/interfaces/IRoom";
+import { Query } from "@tanstack/react-query";
+import QueryInput from "@/src/ui/QueryInput";
+import { useEffect, useState } from "react";
+
+const screenWidth = Dimensions.get("window").width;
 
 export default function Room() {
-  const [opneAddRoom, setOpneAddRoom] = useState<boolean>(false);
-  const { roomData } = useRoomQuery(undefined);
+  const { roomData } = useRoomQuery(undefined) as { roomData: IRoom[] };
+  const [query, setQuery] = useState<IRoom[]>([]);
+  useEffect(() => {
+    if (roomData) {
+      setQuery(roomData);
+    }
+  }, [roomData]);
+  const handleRoomQuery = (value: string) => {
+    const filter = value.toLowerCase();
+    const dataToDisplay = roomData.filter((room: IRoom) => {
+      return room.name.toLowerCase().includes(filter);
+    });
+    setQuery(dataToDisplay);
+  };
   return (
     <View style={styles.container}>
-      <Button callback={() => setOpneAddRoom(true)}>Dodaj</Button>
-      {/* {opneAddRoom && <AddRoo onClose={() => setOpneAddRoom(false)} />} */}
+      <QueryInput onChange={handleRoomQuery} />
+      <Button callback={() => {}}>Dodaj</Button>
       <FlatList
         numColumns={2}
-        data={roomData}
+        data={query}
         renderItem={({ item }) => (
-          <View style={{ width: "50%" }}>
+          <View style={styles.item}>
             <RoomCard room={item} />
           </View>
         )}
@@ -29,6 +45,9 @@ export default function Room() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginBottom: 100,
+    marginBottom: 60,
+  },
+  item: {
+    flex: 1 / 2,
   },
 });

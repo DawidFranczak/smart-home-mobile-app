@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
 import { ILamp } from "@/src/interfaces/ILamp";
-import DeviceCardContainer from "@/src/ui/DeviceCardContainer";
+import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 import StyledLink from "@/src/ui/StyledLink";
 
 function formatDate(date: string): string {

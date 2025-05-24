@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import { IAquarium } from "@/src/interfaces/IAquarium";
 import React from "react";
-import DeviceCardContainer from "@/src/ui/DeviceCardContainer";
+import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 import StatusIndicator from "@/src/ui/StatusIndicator";
 import formatAquariumDate from "@/src/utils/formatAquariumDate";
 import StyledLink from "@/src/ui/StyledLink";
@@ -59,7 +59,7 @@ const AquariumCard: React.FC<AquariumCardProps> = ({ aquarium }) => {
           </View>
         </>
       )}
-      <StyledLink type="button" to={`/aquarium/${aquarium.id}/`}>
+      <StyledLink type="button" to={`/Aquarium/${aquarium.id}/`}>
         Wybierz
       </StyledLink>
     </DeviceCardContainer>

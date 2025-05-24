@@ -1,37 +1,27 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ViewStyle } from "react-native";
 
 interface MessageProps {
   children: React.ReactNode;
-  type: string;
+  type?: "error" | "success";
+  style?: ViewStyle;
 }
 
-const Message = ({ children, type }: MessageProps) => {
+const Message = ({ children, style, type }: MessageProps) => {
+  const messageType = type === "error" ? styles.error : styles.success;
   return (
-    <View style={styles.message}>
-      <View style={styles.backgroundBlur} />
-      <Text style={[styles.messageText, styles[type]]}>{children}</Text>
+    <View style={[styles.message, style]}>
+      <Text style={[styles.messageText, messageType]}>{children}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   message: {
-    position: "relative",
-    borderRadius: 10,
     overflow: "hidden",
-  },
-  backgroundBlur: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(255, 255, 255, 0.05)",
   },
   messageText: {
     margin: 0,
-    position: "relative",
     fontSize: 14,
     fontWeight: "bold",
     zIndex: 1,

@@ -1,70 +1,66 @@
-import React, { useState } from "react";
-import {
-  View,
-  TextInput,
-  Text,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import WifiStrength from "./WiFiStrength";
+import ChangeName from "../components/ChangeName";
+import Header from "./Header";
+import DeviceEventDisplay from "../components/DeviceEventDisplay";
 
-interface ChangeNameFormProps {
-  onClose: () => void;
-  onConfirm: (name: string) => void;
+interface IEvent {
+  id: number;
+  action: string;
+  device: string;
+  event: string;
 }
 
-export default function ChangeNameForm({
-  onClose,
-  onConfirm,
-}: ChangeNameFormProps) {
-  const [name, setName] = useState<string>("");
+interface DeviceContainerProps {
+  name: string;
+  wifiStrength: number;
+  isOnline: boolean;
+  children: React.ReactNode;
+  id: number;
+  events?: IEvent[];
+}
 
-  function handleClose() {
-    onClose();
-  }
-
+export default function DeviceContainer({
+  name,
+  wifiStrength,
+  isOnline,
+  children,
+  id,
+  events,
+}: DeviceContainerProps) {
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Nazwa"
-        value={name}
-        onChangeText={setName}
+      <WifiStrength
+        strength={isOnline ? wifiStrength : -100}
+        style={styles.wifiIcon}
       />
-      <View style={styles.buttonContainer}>
-        <Button title="Zapisz" onPress={() => onConfirm(name)} />
-        <TouchableOpacity onPress={handleClose} style={styles.cancelButton}>
-          <Text style={styles.cancelButtonText}>Anuluj</Text>
-        </TouchableOpacity>
-      </View>
+      <ChangeName type="device" id={id}>
+        <Header style={styles.header}>{name}</Header>
+      </ChangeName>
+      {events?.map((event) => (
+        <DeviceEventDisplay
+          key={event.id}
+          action={event.action}
+          device={event.device}
+          event={event.event}
+        />
+      ))}
+      {children}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
-    gap: 10,
-    padding: 15,
+    flex: 1,
   },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 10,
+  wifiIcon: {
+    position: "absolute",
+    top: 30,
+    right: 30,
   },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  cancelButton: {
-    backgroundColor: "#f5f5f5",
-    padding: 10,
-    borderRadius: 5,
-  },
-  cancelButtonText: {
-    color: "red",
-    fontWeight: "bold",
+  header: {
+    marginTop: 30,
   },
 });

@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import DeviceEventDisplay from "../DeviceEventDisplay";
 import { IButton } from "@/src/interfaces/IButton";
-import DeviceCardContainer from "@/src/ui/DeviceCardContainer";
+import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 
 interface ButtonCardProps {
   button: IButton;

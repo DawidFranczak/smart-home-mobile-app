@@ -31,7 +31,7 @@ export default function RoomCard({ room }: RoomCardProps) {
       <Text style={styles.tekst}>
         Wszystkie urządzenia: {room.device_count}
       </Text>
-      <StyledLink type="button" to={`/(screen)/room/${room.id}/`}>
+      <StyledLink type="button" to={`/Room/${room.id}`}>
         Wybierz
       </StyledLink>
     </View>

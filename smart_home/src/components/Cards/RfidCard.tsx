@@ -1,8 +1,8 @@
 import React from "react";
-import { Text, StyleSheet, ScrollView, FlatList } from "react-native";
+import { Text, StyleSheet, ScrollView, FlatList, View } from "react-native";
 import { IRfid } from "@/src/interfaces/IRfid";
 import DeviceEventDisplay from "../DeviceEventDisplay";
-import DeviceCardContainer from "@/src/ui/DeviceCardContainer";
+import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 import StyledLink from "@/src/ui/StyledLink";
 
 interface RfidCardProps {
@@ -18,20 +18,16 @@ export default function RfidCard({ rfid }: RfidCardProps) {
       isOnline={rfid.is_online}
       id={rfid.id}
     >
-      <ScrollView contentContainerStyle={styles.eventContainer}>
-        <FlatList
-          data={rfid.events}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <DeviceEventDisplay
-              key={item.id}
-              action={item.action}
-              device={item.device}
-              event={item.event}
-            />
-          )}
-        />
-      </ScrollView>
+      <View style={styles.eventContainer}>
+        {rfid.events?.map((event) => (
+          <DeviceEventDisplay
+            key={event.id}
+            action={event.action}
+            device={event.device}
+            event={event.event}
+          />
+        ))}
+      </View>
       <Text style={styles.tekst}>Ilość kart: {rfid.cards.length}</Text>
       <StyledLink type="button" to={`/rfid/${rfid.id}/`}>
         Wybierz

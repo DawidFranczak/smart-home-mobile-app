@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { IRoom } from "../../src/interfaces/IRoom";
 import { IDevice } from "../../src/interfaces/IDevice";
-import { StyleSheet, Text, View, Dimensions } from "react-native";
+import { StyleSheet, Text, View, Dimensions, ScrollView } from "react-native";
 import useFavouriteQuery from "@/src/hooks/queries/useFavouriteQuery";
 import QueryInput from "@/src/ui/QueryInput";
 import RoomCard from "@/src/components/Cards/RoomCard";
 import getDeviceComponent from "@/src/utils/getDeviceCard";
-import { FlatList } from "react-native";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -33,41 +32,36 @@ export default function Home() {
   }
   if (!favouriteDevice || !favouriteRoom) return null;
   return (
-    <>
+    <ScrollView style={styles.container}>
       <QueryInput onChange={handleQueryChange} />
-
       <View style={styles.section}>
         <Text style={styles.title}>Pokoje</Text>
-        <FlatList
-          data={favouriteRoom}
-          numColumns={2}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.item}>
-              <RoomCard key={item.id} room={item} />
-            </View>
-          )}
-        />
-      </View>
-      <View style={styles.section}>
+        {favouriteRoom.map((room) => (
+          <View key={room.id} style={styles.item}>
+            <RoomCard room={room} />
+          </View>
+        ))}
         <Text style={styles.title}>Urządzenia</Text>
-        <FlatList
-          data={favouriteDevice}
-          numColumns={2}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <View style={styles.item}>{getDeviceComponent(item)}</View>
-          )}
-        />
+        {favouriteDevice.map((device) => (
+          <View key={device.id} style={styles.item}>
+            {getDeviceComponent(device)}
+          </View>
+        ))}
       </View>
-    </>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    overflow: "scroll",
+    marginBottom: 60,
+  },
   section: {
-    marginBottom: 20,
-    paddingHorizontal: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
   },
   title: {
     width: "100%",
@@ -78,6 +72,6 @@ const styles = StyleSheet.create({
     color: "#0ff",
   },
   item: {
-    width: (screenWidth - 40) / 2,
+    width: (screenWidth - 5) / 2,
   },
 });
