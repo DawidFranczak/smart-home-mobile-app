@@ -1,10 +1,9 @@
 import { useMutation } from "@tanstack/react-query";
-import useFetch from "../useFetch";
 import { api } from "@/src/const/api";
-
+import { saveSecureValue } from "@/src/utils/storage";
 export default function useLoginMutation(
   setError: (error: string) => void,
-  setToken: (token: string) => void
+  setAccess: (token: string) => void
 ) {
   return useMutation({
     mutationFn: (data: { username: string; password: string }) =>
@@ -14,6 +13,7 @@ export default function useLoginMutation(
         headers: {
           "Content-Type": "application/json",
           "ngrok-skip-browser-warning": "1234",
+          "X-Client-Type": "mobile",
         },
         body: JSON.stringify(data),
       }),
@@ -21,10 +21,12 @@ export default function useLoginMutation(
       const status = response.status;
       const data = await response.json();
       if (status === 400) {
-        setError(data.Message);
+        setError(data.message);
         return;
       }
-      setToken(data.access);
+      setAccess(data.access);
+      saveSecureValue("access", data.access);
+      saveSecureValue("refresh", data.refresh);
     },
   });
 }

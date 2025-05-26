@@ -5,7 +5,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 interface NavbarLinkProps {
   image: any;
   text: string;
-  url: "/Home" | "/Room" | "/Router";
+  url: "/Home" | "/Room" | "/Router" | "/Login";
 }
 export default function NavbarLink({ image, text, url }: NavbarLinkProps) {
   const pathName = usePathname();

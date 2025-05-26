@@ -8,6 +8,7 @@ const RequireAuth = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   useEffect(() => {
     if (invalidToken) {
+      console.log("Invalid token, redirecting to login");
       router.replace("/Login");
     }
   }, [invalidToken, router]);

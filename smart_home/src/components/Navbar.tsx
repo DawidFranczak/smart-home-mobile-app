@@ -1,4 +1,5 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Image, Text } from "react-native";
+import { useRouter } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
 
 import { api } from "../const/api";
@@ -9,10 +10,12 @@ import NavbarLink from "../ui/NavbarLink";
 export default function Navbar() {
   const { deleteData } = useFetch();
   const { logout } = useAuth();
+  const router = useRouter();
   const mutation = useMutation({
     mutationFn: () => deleteData(api.logout),
-    onSuccess: () => {
+    onSuccess: (response) => {
       logout();
+      router.push("/Login");
     },
   });
   async function logoutHandler() {
@@ -35,6 +38,13 @@ export default function Navbar() {
         text={"ruter"}
         url="/Router"
       />
+      <TouchableOpacity style={styles.logout} onPress={logoutHandler}>
+        <Image
+          style={styles.image}
+          source={require("../../assets/images/logout.png")}
+        />
+        <Text style={styles.text}>Wyloguj</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -49,5 +59,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-around",
+  },
+  text: {
+    color: "#0ff",
+    fontSize: 12,
+  },
+  image: {
+    width: 25,
+    height: 25,
+  },
+  logout: {
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

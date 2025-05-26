@@ -15,33 +15,22 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const mutation = useLoginMutation(setError, setToken);
-  const { login, access } = useAuth();
+  const { login, access, setAccess } = useAuth();
+  const mutation = useLoginMutation(setError, setAccess);
   const router = useRouter();
   useEffect(() => {
-    if (token) {
-      login(token);
-      router.push("/Home");
+    if (access) {
+      login(access);
+      router.replace("/Home");
     }
-  }, [token, login]);
+  }, [login, access]);
 
-  useEffect(() => {
-    if (access) router.push("/Home");
-  }, []);
-
-  useEffect(() => {
-    setUsername("dawid");
-    setPassword("dsawdsaw");
-  }, []);
-  useEffect(() => {
-    if (username && password) handleLogin();
-  }, [username, password]);
   const handleLogin = () => {
     if (username === "" || password === "") {
       Alert.alert("Błąd", "Proszę wypełnić wszystkie pola.");
       return;
     }
+    setError(null);
     mutation.mutate({ username, password });
   };
   return (

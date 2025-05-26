@@ -1,19 +1,7 @@
+import { api } from "../const/api";
 import { useAuth } from "../context/AuthContext";
+import { getSecureValue } from "../utils/storage";
 
-function getCsrfToken() {
-  var cookieValue = null;
-  if (document.cookie && document.cookie !== "") {
-    var cookies = document.cookie.split(";");
-    for (var i = 0; i < cookies.length; i++) {
-      var cookie = cookies[i].trim();
-      if (cookie.substring(0, 10) === "csrftoken=") {
-        cookieValue = decodeURIComponent(cookie.substring(10));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
 interface useFetchReturn {
   createData: (
     url: string,
@@ -89,14 +77,24 @@ export default function useFetch(): useFetchReturn {
   }
 
   async function deleteData(url: string): Promise<{ status: number }> {
+    const token = await getSecureValue("refresh");
+    const opt =
+      url === api.logout
+        ? {
+            ...options,
+            headers: {
+              ...options.headers,
+              "X-Client-Type": "mobile",
+              Token: token,
+            },
+          }
+        : options;
     const response = await fetch(url, {
       method: "DELETE",
-      ...options,
+      ...opt,
     });
-    // const data = await response.json();
     return { status: response.status };
   }
-
   return {
     createData,
     readData,

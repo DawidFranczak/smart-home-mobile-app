@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ViewStyle,
   TextStyle,
+  TouchableOpacity,
 } from "react-native";
 
 interface ButtonProps {
@@ -16,9 +17,9 @@ interface ButtonProps {
 
 const Button = ({ callback, children, style, textStyle }: ButtonProps) => {
   return (
-    <Pressable style={[styles.button, style]} onPress={callback}>
+    <TouchableOpacity style={[styles.button, style]} onPress={callback}>
       <Text style={[styles.text, textStyle]}>{children}</Text>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 
