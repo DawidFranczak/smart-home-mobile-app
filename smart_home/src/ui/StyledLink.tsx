@@ -7,6 +7,7 @@ import {
   TextStyle,
   TouchableOpacity,
 } from "react-native";
+import color from "../styles/color";
 
 interface IStyledLinkProps {
   children: React.ReactNode;
@@ -39,7 +40,7 @@ const styles = StyleSheet.create<{
     paddingVertical: 8,
     paddingHorizontal: 18,
     borderRadius: 5,
-    backgroundColor: "rgba(0, 191, 255, 0.75)",
+    backgroundColor: color.button.background,
     shadowColor: "white",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
@@ -47,7 +48,7 @@ const styles = StyleSheet.create<{
     elevation: 5,
   },
   text: {
-    color: "#00ffff",
+    color: color.button.text,
     fontSize: 16,
   },
 });

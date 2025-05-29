@@ -5,6 +5,7 @@ import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 import StatusIndicator from "@/src/ui/StatusIndicator";
 import formatAquariumDate from "@/src/utils/formatAquariumDate";
 import StyledLink from "@/src/ui/StyledLink";
+import color from "@/src/styles/color";
 
 interface AquariumCardProps {
   aquarium: IAquarium;
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   },
   tekst: {
     flexDirection: "row",
-    color: "#00ffff",
+    color: color.text.primary,
   },
   image: { width: 24, height: 24 },
 });

@@ -3,7 +3,8 @@ import { Image, StyleSheet, View, ImageStyle, ViewStyle } from "react-native";
 
 interface WifiStrengthProps {
   strength: number;
-  style?: ViewStyle | ImageStyle;
+  style?: ViewStyle;
+  imageStyle?: ImageStyle;
 }
 
 const getWifiIcon = (strength: number) => {
@@ -13,12 +14,20 @@ const getWifiIcon = (strength: number) => {
   return require("../../assets/images/wifi_perfect.png");
 };
 
-export default function WifiStrength({ strength, style }: WifiStrengthProps) {
+export default function WifiStrength({
+  strength,
+  style,
+  imageStyle,
+}: WifiStrengthProps) {
   const wifiIcon = getWifiIcon(strength);
 
   return (
     <View style={style}>
-      <Image source={wifiIcon} style={styles.image} resizeMode="contain" />
+      <Image
+        source={wifiIcon}
+        style={[styles.image, imageStyle]}
+        resizeMode="contain"
+      />
     </View>
   );
 }

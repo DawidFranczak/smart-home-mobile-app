@@ -6,6 +6,8 @@ import useFavouriteQuery from "@/src/hooks/queries/useFavouriteQuery";
 import QueryInput from "@/src/ui/QueryInput";
 import RoomCard from "@/src/components/Cards/RoomCard";
 import getDeviceComponent from "@/src/utils/getDeviceCard";
+import cardBackgroung from "@/src/styles/cardBackgroung";
+import textWithLights from "@/src/styles/textWithLights";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -18,6 +20,7 @@ export default function Home() {
     setFavouriteRoom(favouriteData.rooms);
     setFavouriteDevice(favouriteData.devices);
   }, [favouriteData]);
+
   function handleQueryChange(query: string) {
     setFavouriteDevice(
       favouriteData.devices.filter((device: IDevice) => {
@@ -35,13 +38,17 @@ export default function Home() {
     <ScrollView style={styles.container}>
       <QueryInput onChange={handleQueryChange} />
       <View style={styles.section}>
-        <Text style={styles.title}>Pokoje</Text>
+        <Text style={[styles.title, cardBackgroung.container, textWithLights]}>
+          Pokoje
+        </Text>
         {favouriteRoom.map((room) => (
           <View key={room.id} style={styles.item}>
             <RoomCard room={room} />
           </View>
         ))}
-        <Text style={styles.title}>Urządzenia</Text>
+        <Text style={[styles.title, cardBackgroung.container, textWithLights]}>
+          Urządzenia
+        </Text>
         {favouriteDevice.map((device) => (
           <View key={device.id} style={styles.item}>
             {getDeviceComponent(device)}
@@ -66,10 +73,8 @@ const styles = StyleSheet.create({
   title: {
     width: "100%",
     textAlign: "center",
-    fontWeight: "bold",
     fontSize: 18,
     marginBottom: 10,
-    color: "#0ff",
   },
   item: {
     width: (screenWidth - 5) / 2,

@@ -4,6 +4,7 @@ import { IRfid } from "@/src/interfaces/IRfid";
 import DeviceEventDisplay from "../DeviceEventDisplay";
 import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 import StyledLink from "@/src/ui/StyledLink";
+import color from "@/src/styles/color";
 
 interface RfidCardProps {
   rfid: IRfid;
@@ -55,6 +56,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   tekst: {
-    color: "#00ffff",
+    color: color.text,
   },
 });

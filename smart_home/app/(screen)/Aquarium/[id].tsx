@@ -12,6 +12,8 @@ import { Panel3 } from "reanimated-color-picker";
 import ColorPicker from "reanimated-color-picker";
 import hexToRgb from "@/src/utils/hexToRgb";
 import rgbToHex from "@/src/utils/rgbToHex";
+import textBackground from "@/src/styles/textBackground";
+import textWithLights from "@/src/styles/textWithLights";
 
 type IAction =
   | {
@@ -133,26 +135,37 @@ export default function AquariumPage() {
               fluo_start: state.fluo_start,
               fluo_stop: state.fluo_stop,
             }}
-            saveFn={() => handleSaveSettings(undefined)}
           />
         ) : (
-          <View>
-            <Button callback={() => handleSaveSettings(undefined)}>
-              Zapisz
-            </Button>
-            <Text style={styles.sectionTitle}>Ledy</Text>
-            <Button callback={() => handleSaveSettings("led_mode")}>
+          <View style={styles.aquariumManual}>
+            <Text style={[textBackground.background, textWithLights]}>
+              Ledy
+            </Text>
+            <Button onPress={() => handleSaveSettings("led_mode")}>
               {state.led_mode ? "Wyłącz" : "Włącz"}
             </Button>
-            <Text style={styles.sectionTitle}>Świetlówka</Text>
-            <Button callback={() => handleSaveSettings("fluo_mode")}>
+            <Text style={[textBackground.background, textWithLights]}>
+              Świetlówka
+            </Text>
+            <Button onPress={() => handleSaveSettings("fluo_mode")}>
               {state.fluo_mode ? "Wyłącz" : "Włącz"}
             </Button>
           </View>
         )}
-        <Button callback={() => handleSaveSettings("mode")}>
-          {state.mode ? "Ręczny" : "Automatyczny"}
-        </Button>
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.button}
+            onPress={() => handleSaveSettings(undefined)}
+          >
+            Zapisz
+          </Button>
+          <Button
+            style={styles.button}
+            onPress={() => handleSaveSettings("mode")}
+          >
+            {state.mode ? "Ręczny" : "Automatyczny"}
+          </Button>
+        </View>
       </View>
     </DeviceContainer>
   );
@@ -162,22 +175,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "space-around",
     padding: 20,
     marginBottom: 60,
   },
   colorPicker: {
+    marginTop: 20,
     width: "70%",
-  },
-  sectionTitle: {
-    color: "#0ff",
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 10,
-    textAlign: "center",
   },
   message: {
     position: "absolute",
     top: 10,
+  },
+  aquariumManual: {
+    width: "100%",
+    justifyContent: "center",
+    marginTop: 20,
+    gap: 20,
+  },
+  button: { width: "100%" },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 15,
+    width: "100%",
+    gap: 10,
   },
 });

@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import InputTime from "../ui/InputTime";
-import Button from "../ui/Button";
-
+import textWithLights from "../styles/textWithLights";
+import textBackground from "../styles/textBackground";
 interface IAquariumAutomatProps {
   dispatch: ({ type, payload }: { type: string; payload: string }) => void;
   state: {
@@ -11,55 +11,119 @@ interface IAquariumAutomatProps {
     fluo_start: string;
     fluo_stop: string;
   };
-  saveFn: () => void;
 }
 
 export default function AquariumAutomat({
   dispatch,
   state,
-  saveFn,
 }: IAquariumAutomatProps) {
   return (
-    <View>
-      <Text style={styles.label}>Czas ledów</Text>
-      <View style={styles.times}>
-        <InputTime
-          initialTime={state.led_start}
-          onChange={(data) => dispatch({ type: "set/ledStart", payload: data })}
-        />
-        <InputTime
-          initialTime={state.led_stop}
-          onChange={(data) => dispatch({ type: "set/ledStop", payload: data })}
-        />
-      </View>
+    <View style={styles.container}>
+      <View style={styles.section}>
+        <Text style={[textBackground.background, textWithLights]}>
+          Czas ledów
+        </Text>
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionInput}>
+            <Text
+              style={[
+                textBackground.background,
+                textWithLights,
+                styles.textBackground,
+              ]}
+            >
+              Rozpoczęcie
+            </Text>
+            <InputTime
+              initialTime={state.led_start}
+              onChange={(data) =>
+                dispatch({ type: "set/ledStart", payload: data })
+              }
+            />
+          </View>
+          <View style={styles.sectionInput}>
+            <Text
+              style={[
+                textBackground.background,
+                textWithLights,
+                styles.textBackground,
+              ]}
+            >
+              Zakończenie
+            </Text>
+            <InputTime
+              initialTime={state.led_stop}
+              onChange={(data) =>
+                dispatch({ type: "set/ledStop", payload: data })
+              }
+            />
+          </View>
+        </View>
 
-      <Text style={styles.label}>Czas świetlówki</Text>
-      <View style={styles.times}>
-        <InputTime
-          initialTime={state.fluo_start}
-          onChange={(data) =>
-            dispatch({ type: "set/fluoStart", payload: data })
-          }
-        />
-        <InputTime
-          initialTime={state.fluo_stop}
-          onChange={(data) => dispatch({ type: "set/fluoStop", payload: data })}
-        />
+        <Text style={[textBackground.background, textWithLights]}>
+          Czas świetlówki
+        </Text>
+        <View style={styles.sectionContainer}>
+          <View style={styles.sectionInput}>
+            <Text
+              style={[
+                textBackground.background,
+                textWithLights,
+                styles.textBackground,
+              ]}
+            >
+              Rozpoczęcie
+            </Text>
+            <InputTime
+              initialTime={state.fluo_start}
+              onChange={(data) =>
+                dispatch({ type: "set/fluoStart", payload: data })
+              }
+            />
+          </View>
+          <View style={styles.sectionInput}>
+            <Text
+              style={[
+                textBackground.background,
+                textWithLights,
+                styles.textBackground,
+                ,
+              ]}
+            >
+              Zakończenie
+            </Text>
+            <InputTime
+              initialTime={state.fluo_stop}
+              onChange={(data) =>
+                dispatch({ type: "set/fluoStop", payload: data })
+              }
+            />
+          </View>
+        </View>
       </View>
-
-      <Button callback={saveFn}>Zapisz</Button>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  label: {
-    fontSize: 16,
-    marginVertical: 8,
+  container: {
+    flex: 1,
+    width: "100%",
+    marginTop: 20,
   },
-  times: {
+  section: {
+    alignItems: "center",
+    justifyContent: "space-around",
+  },
+  sectionInput: {
+    flex: 1 / 2,
+    alignItems: "center",
+  },
+  sectionContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 16,
+    marginVertical: 10,
+  },
+  textBackground: {
+    width: "90%",
   },
 });

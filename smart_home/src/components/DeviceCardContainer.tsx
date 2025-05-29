@@ -3,6 +3,7 @@ import { View, StyleSheet, Animated, Pressable } from "react-native";
 import FavouriteStar from "./FavouriteStar";
 import Header from "../ui/Header";
 import WifiStrength from "../ui/WiFiStrength";
+import cardBackgroung from "../styles/cardBackgroung";
 
 interface IDeviceCardContainerProps {
   isFavourite: boolean;
@@ -24,7 +25,7 @@ export default function DeviceCardContainer({
   const [isFavouriteState, setIsFavouriteState] = useState(isFavourite);
 
   return (
-    <View style={styles.card}>
+    <View style={cardBackgroung.container}>
       <Header>{name}</Header>
 
       <View style={styles.wifi}>
@@ -42,18 +43,6 @@ export default function DeviceCardContainer({
   );
 }
 const styles = StyleSheet.create({
-  card: {
-    width: "95%",
-    aspectRatio: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderRadius: 15,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    margin: 5,
-    padding: 5,
-    boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
-  },
   starContainer: {
     position: "absolute",
     top: 10,

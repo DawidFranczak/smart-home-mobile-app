@@ -42,7 +42,8 @@
     "react-native-webview": "13.13.5",
     "react-router-native": "^6.30.0",
     "reanimated-color-picker": "^4.0.1",
-    "expo-secure-store": "~14.2.3"
+    "expo-secure-store": "~14.2.3",
+    "@react-native-community/datetimepicker": "8.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

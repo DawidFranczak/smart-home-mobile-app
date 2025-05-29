@@ -7,17 +7,18 @@ import {
   TextStyle,
   TouchableOpacity,
 } from "react-native";
+import color from "../styles/color";
 
 interface ButtonProps {
   children: React.ReactNode;
-  callback?: () => void;
+  onPress?: () => void;
   style?: ViewStyle | ViewStyle[];
   textStyle?: TextStyle | TextStyle[];
 }
 
-const Button = ({ callback, children, style, textStyle }: ButtonProps) => {
+const Button = ({ onPress, children, style, textStyle }: ButtonProps) => {
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={callback}>
+    <TouchableOpacity style={[styles.button, style]} onPress={onPress}>
       <Text style={[styles.text, textStyle]}>{children}</Text>
     </TouchableOpacity>
   );
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    color: "black",
+    color: color.button.text,
     fontSize: 16,
   },
 });

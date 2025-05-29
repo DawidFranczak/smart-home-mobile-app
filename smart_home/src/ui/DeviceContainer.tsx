@@ -33,7 +33,8 @@ export default function DeviceContainer({
     <View style={styles.container}>
       <WifiStrength
         strength={isOnline ? wifiStrength : -100}
-        style={styles.wifiIcon}
+        style={styles.wifiPosition}
+        imageStyle={styles.wifiIcon}
       />
       <ChangeName type="device" id={id}>
         <Header style={styles.header}>{name}</Header>
@@ -55,12 +56,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  wifiIcon: {
+  wifiPosition: {
     position: "absolute",
-    top: 30,
+    top: 20,
     right: 30,
+  },
+  wifiIcon: {
+    width: 40,
+    height: 40,
   },
   header: {
     marginTop: 30,
+    textAlign: "center",
   },
 });

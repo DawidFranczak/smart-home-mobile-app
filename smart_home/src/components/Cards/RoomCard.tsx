@@ -5,7 +5,8 @@ import FavouriteStar from "../FavouriteStar";
 import RoomVisibility from "../RoomVisibility";
 import Header from "../../ui/Header";
 import StyledLink from "@/src/ui/StyledLink";
-
+import color from "@/src/styles/color";
+import cardBackgroung from "@/src/styles/cardBackgroung";
 interface RoomCardProps {
   room: IRoom;
 }
@@ -15,7 +16,7 @@ export default function RoomCard({ room }: RoomCardProps) {
   const handleFavouriteClick = () => setIsFavourite(!isFavourite);
 
   return (
-    <View style={styles.container}>
+    <View style={cardBackgroung.container}>
       <FavouriteStar
         style={styles.favouriteStar}
         isFavourite={isFavourite}
@@ -39,18 +40,6 @@ export default function RoomCard({ room }: RoomCardProps) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: "95%",
-    aspectRatio: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderRadius: 15,
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
-    margin: 5,
-    padding: 5,
-    boxShadow: "0 0 10px rgba(255, 255, 255, 0.5)",
-  },
   favouriteStar: {
     position: "absolute",
     top: 10,
@@ -62,6 +51,6 @@ const styles = StyleSheet.create({
     left: 10,
   },
   tekst: {
-    color: "#00ffff",
+    color: color.text.primary,
   },
 });
