@@ -5,8 +5,8 @@ import RfidCard from "../components/Cards/RfidCard";
 
 export default function getDeviceComponent(device: any) {
   switch (device.fun) {
-    // case "lamp":
-    //   return <LampCard lamp={device} key={device.id} />;
+    case "lamp":
+      return <LampCard lamp={device} key={device.id} />;
     case "rfid":
       return <RfidCard rfid={device} key={device.id} />;
     // case "button":

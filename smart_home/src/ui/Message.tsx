@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
     zIndex: 1,
+    textAlign: "center",
   },
   error: {
     color: "rgba(255, 0, 0, 0.8)",

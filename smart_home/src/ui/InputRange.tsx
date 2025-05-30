@@ -24,12 +24,11 @@ const InputRange = ({
         minimumValue={min}
         maximumValue={max}
         value={value}
-        onValueChange={(value) => onChange && onChange(value)}
+        onValueChange={(value) => onChange && onChange(Math.floor(value))}
         minimumTrackTintColor="#00FFFF"
         maximumTrackTintColor="#D3D3D3"
         thumbTintColor="#00FFFF"
       />
-      {value !== undefined && <Text style={styles.value}>{value}</Text>}
     </View>
   );
 };
