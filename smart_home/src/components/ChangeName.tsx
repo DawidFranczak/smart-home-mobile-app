@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Pressable } from "react-native";
+import { View, StyleSheet, Pressable, Modal } from "react-native";
 import useDeviceMutation from "../hooks/queries/useDeviceMutation";
 import ChangeNameForm from "./ChangeNameForm";
 import Message from "../ui/Message";
+import { ICustomError } from "../interfaces/ICustomError";
 
 interface ChangeNameProps {
   children: React.ReactNode;
@@ -24,13 +25,19 @@ export default function ChangeName({ children, type, id }: ChangeNameProps) {
   function handleChangeName(name: string) {
     mutation.mutate({ name });
   }
-
-  const error = mutation.error;
-
+  const error: ICustomError | null = mutation.error;
   return (
-    <Pressable style={styles.changeName} onPress={() => setDisplayForm(true)}>
-      {displayForm ? (
-        <View>
+    <>
+      <Pressable onPress={() => setDisplayForm(true)}>{children}</Pressable>
+      <Modal
+        animationType="fade"
+        visible={displayForm}
+        backdropColor="rgba(0, 0, 0, 0.6)"
+        onRequestClose={() => {
+          setDisplayForm(false);
+        }}
+      >
+        <View style={styles.container}>
           <ChangeNameForm
             onClose={() => setDisplayForm(false)}
             onConfirm={handleChangeName}
@@ -39,16 +46,15 @@ export default function ChangeName({ children, type, id }: ChangeNameProps) {
             <Message type="error">{error.details.non_field_errors}</Message>
           )}
         </View>
-      ) : (
-        children
-      )}
-    </Pressable>
+      </Modal>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  changeName: {
-    // tutaj dodaj style odpowiadające Twojemu divowi z CSS,
-    // np. padding, margin, backgroundColor, itp.
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

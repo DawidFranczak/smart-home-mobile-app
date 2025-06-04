@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
-  TextInput,
   Text,
   StyleSheet,
-  Button,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
+import ButtonContainer from "../ui/ButtonContainer";
+import Button from "../ui/Button";
+import InputText from "../ui/InputText";
+import color from "../styles/color";
 
 interface ChangeNameFormProps {
   onClose: () => void;
@@ -17,7 +20,17 @@ export default function ChangeNameForm({
   onClose,
   onConfirm,
 }: ChangeNameFormProps) {
+  const [inputVisible, setInputVisible] = useState(false);
   const [name, setName] = useState<string>("");
+  const inputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setInputVisible(true);
+      inputRef.current?.focus();
+    }, 200);
+    return () => clearTimeout(timeout);
+  }, []);
 
   function handleClose() {
     onClose();
@@ -25,46 +38,46 @@ export default function ChangeNameForm({
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Nazwa"
-        value={name}
-        onChangeText={setName}
-      />
-      <View style={styles.buttonContainer}>
-        <Button title="Zapisz" onPress={() => onConfirm(name)} />
+      {inputVisible && (
+        <InputText
+          ref={inputRef}
+          inputStyle={styles.input}
+          placeholder="Podaj nowe nazwe"
+          value={name}
+          onChange={setName}
+          autoFocus={true}
+        />
+      )}
+      <ButtonContainer style={styles.buttonContainer}>
+        <Button onPress={() => onConfirm(name)}>Zapisz</Button>
         <TouchableOpacity onPress={handleClose} style={styles.cancelButton}>
           <Text style={styles.cancelButtonText}>Anuluj</Text>
         </TouchableOpacity>
-      </View>
+      </ButtonContainer>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    width: "80%",
     flexDirection: "column",
-    gap: 10,
     padding: 15,
   },
   input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 10,
+    textAlign: "left",
   },
   buttonContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
   },
   cancelButton: {
-    backgroundColor: "#f5f5f5",
+    backgroundColor: color.button.danger,
     padding: 10,
     borderRadius: 5,
   },
   cancelButtonText: {
-    color: "red",
+    color: color.text.primary,
     fontWeight: "bold",
   },
 });

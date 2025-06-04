@@ -81,13 +81,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   accept: {
-    backgroundColor: "#f44336",
+    backgroundColor: color.button.danger,
   },
   cancel: {
     backgroundColor: color.button.background,
   },
   buttonText: {
-    color: "white",
+    color: color.text.primary,
     fontSize: 16,
     textAlign: "center",
   },

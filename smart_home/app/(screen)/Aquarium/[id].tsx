@@ -125,7 +125,6 @@ export default function AquariumPage() {
         >
           <Panel3 />
         </ColorPicker>
-
         {state.mode ? (
           <AquariumAutomat
             dispatch={dispatch}

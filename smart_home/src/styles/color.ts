@@ -10,6 +10,7 @@ export default {
 
   button: {
     text: "#efefef",
+    danger: "#f44336",
     background: "rgba(0, 191, 255, 0.75)",
   },
 };
