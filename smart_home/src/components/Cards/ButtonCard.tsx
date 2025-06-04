@@ -1,14 +1,9 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-} from "react-native";
+import { View, StyleSheet } from "react-native";
 import DeviceEventDisplay from "../DeviceEventDisplay";
 import { IButton } from "@/src/interfaces/IButton";
 import DeviceCardContainer from "@/src/components/DeviceCardContainer";
+import StyledLink from "@/src/ui/StyledLink";
 
 interface ButtonCardProps {
   button: IButton;
@@ -24,30 +19,27 @@ export default function ButtonCard({ button }: ButtonCardProps) {
       id={button.id}
     >
       <View style={styles.eventsContainer}>
-        <FlatList
-          data={button.events}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <DeviceEventDisplay
-              key={item.id}
-              action={item.action}
-              device={item.device}
-              event={item.event}
-            />
-          )}
-          contentContainerStyle={styles.eventsContainer}
-        />
+        {button.events?.map((event) => (
+          <DeviceEventDisplay
+            key={event.id}
+            action={event.action}
+            device={event.device}
+            event={event.event}
+          />
+        ))}
       </View>
-      <TouchableOpacity style={styles.linkButton}>
-        <Text style={styles.linkText}>Wybierz</Text>
-      </TouchableOpacity>
+      <StyledLink type="button" to={`/Button/${button.id}/`}>
+        Wybierz
+      </StyledLink>
     </DeviceCardContainer>
   );
 }
 
 const styles = StyleSheet.create({
   eventsContainer: {
-    marginTop: 10,
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   linkButton: {
     marginTop: 15,

@@ -27,7 +27,7 @@ export default function Room() {
   return (
     <View style={styles.container}>
       <QueryInput onChange={handleRoomQuery} />
-      <Button callback={() => {}}>Dodaj</Button>
+      <Button onPress={() => {}}>Dodaj</Button>
       <FlatList
         numColumns={2}
         data={query}

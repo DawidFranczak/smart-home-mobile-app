@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from "react";
-
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+
 import useLampQuery from "@/src/hooks/queries/useLampQuery";
 import useLampMutation from "@/src/hooks/queries/useLampMutation";
 import { ILamp } from "@/src/interfaces/ILamp";
@@ -10,7 +11,6 @@ import InputTime from "@/src/ui/InputTime";
 import InputNumber from "@/src/ui/InputNumber";
 import InputRange from "@/src/ui/InputRange";
 import Button from "@/src/ui/Button";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { Text } from "@react-navigation/elements";
 import textBackground from "@/src/styles/textBackground";
 import textWithLights from "@/src/styles/textWithLights";

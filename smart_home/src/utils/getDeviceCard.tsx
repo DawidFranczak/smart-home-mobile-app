@@ -9,8 +9,8 @@ export default function getDeviceComponent(device: any) {
       return <LampCard lamp={device} key={device.id} />;
     case "rfid":
       return <RfidCard rfid={device} key={device.id} />;
-    // case "button":
-    //   return <ButtonCard button={device} key={device.id} />;
+    case "button":
+      return <ButtonCard button={device} key={device.id} />;
     case "aquarium":
       return <AquariumCard aquarium={device} key={device.id} />;
   }

@@ -18,7 +18,6 @@ interface DeviceContainerProps {
   isOnline: boolean;
   children: React.ReactNode;
   id: number;
-  events?: IEvent[];
 }
 
 export default function DeviceContainer({
@@ -27,7 +26,6 @@ export default function DeviceContainer({
   isOnline,
   children,
   id,
-  events,
 }: DeviceContainerProps) {
   return (
     <View style={styles.container}>
@@ -39,14 +37,6 @@ export default function DeviceContainer({
       <ChangeName type="device" id={id}>
         <Header style={styles.header}>{name}</Header>
       </ChangeName>
-      {events?.map((event) => (
-        <DeviceEventDisplay
-          key={event.id}
-          action={event.action}
-          device={event.device}
-          event={event.event}
-        />
-      ))}
       {children}
     </View>
   );

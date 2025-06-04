@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../../src/const/api";
 import useFetch from "../useFetch";
-import IButton from "../../interfaces/IButton";
+import { IButton } from "@/src/interfaces/IButton";
 
 export default function useButtonQuery(id: number | undefined) {
   const { readData } = useFetch();

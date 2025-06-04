@@ -1,12 +1,16 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ViewStyle } from "react-native";
 
 interface ButtonContainerProps {
   children: React.ReactNode;
+  style?: ViewStyle;
 }
 
-export default function ButtonContainer({ children }: ButtonContainerProps) {
-  return <View style={styles.buttonContainer}>{children}</View>;
+export default function ButtonContainer({
+  children,
+  style,
+}: ButtonContainerProps) {
+  return <View style={[styles.buttonContainer, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({

@@ -5,44 +5,61 @@ import {
   TouchableOpacity,
   StyleSheet,
   ViewStyle,
+  Modal,
 } from "react-native";
+import color from "../styles/color";
+import ButtonContainer from "../ui/ButtonContainer";
 
 interface ConfirmDeleteProps {
   onConfirm: () => void;
   onCancel: () => void;
   name?: string;
-  extraStyle?: ViewStyle;
+  style?: ViewStyle;
+  visible: boolean;
 }
 
 export default function ConfirmDelete({
   name,
   onConfirm,
   onCancel,
-  extraStyle,
+  visible,
 }: ConfirmDeleteProps) {
   return (
-    <View style={[styles.container]}>
-      <Text style={styles.text}>
-        Czy na pewno chcesz usunąć <Text style={styles.bold}>{name}</Text>?
-      </Text>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={onConfirm}>
-          <Text style={styles.buttonText}>Tak</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={onCancel}>
-          <Text style={styles.buttonText}>Nie</Text>
-        </TouchableOpacity>
+    <Modal
+      animationType="fade"
+      visible={visible}
+      backdropColor="rgba(0, 0, 0, 0.6)"
+      onRequestClose={onCancel}
+    >
+      <View style={styles.container}>
+        <Text style={styles.text}>
+          Czy na pewno chcesz usunąć <Text style={styles.bold}>{name}</Text>?
+        </Text>
+        <ButtonContainer style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={[styles.button, styles.accept]}
+            onPress={onConfirm}
+          >
+            <Text style={styles.buttonText}>Tak</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, styles.cancel]}
+            onPress={onCancel}
+          >
+            <Text style={styles.buttonText}>Nie</Text>
+          </TouchableOpacity>
+        </ButtonContainer>
       </View>
-    </View>
+    </Modal>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     color: "red",
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
   },
   text: {
     textAlign: "center",
@@ -55,14 +72,19 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    gap: 10,
+    gap: 50,
   },
   button: {
-    backgroundColor: "#f44336",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
     marginHorizontal: 5,
+  },
+  accept: {
+    backgroundColor: "#f44336",
+  },
+  cancel: {
+    backgroundColor: color.button.background,
   },
   buttonText: {
     color: "white",

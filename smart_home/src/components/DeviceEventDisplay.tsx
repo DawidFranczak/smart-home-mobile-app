@@ -1,19 +1,21 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, TextStyle } from "react-native";
 
 interface IDeviceEventProps {
   action: string;
   device: string;
   event: string;
+  style?: TextStyle;
 }
 
 export default function DeviceEventDisplay({
   action,
   device,
   event,
+  style,
 }: IDeviceEventProps) {
   return (
-    <Text style={styles.eventText}>
+    <Text style={[styles.eventText, style]}>
       {event}-{action}-{device}
     </Text>
   );

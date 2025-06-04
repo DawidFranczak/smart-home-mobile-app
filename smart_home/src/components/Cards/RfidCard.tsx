@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, ScrollView, FlatList, View } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import { IRfid } from "@/src/interfaces/IRfid";
 import DeviceEventDisplay from "../DeviceEventDisplay";
 import DeviceCardContainer from "@/src/components/DeviceCardContainer";
@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   tekst: {
-    color: color.text,
+    color: color.text.primary,
   },
 });
