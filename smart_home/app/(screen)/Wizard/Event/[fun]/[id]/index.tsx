@@ -6,6 +6,7 @@ import { IEvent } from "@/src/interfaces/IEvent";
 import color from "@/src/styles/color";
 import textBackground from "@/src/styles/textBackground";
 import Button from "@/src/ui/Button";
+import ButtonContainer from "@/src/ui/ButtonContainer";
 import StyledLink from "@/src/ui/StyledLink";
 import { useLocalSearchParams } from "expo-router";
 import { useState } from "react";
@@ -31,7 +32,7 @@ export default function DeviceEventWizzard() {
   if (!availableAction) return <ActivityIndicator size="large" />;
   return (
     <View style={styles.container}>
-      <View style={[styles.section, textBackground.background]}>
+      <View style={textBackground.background}>
         {availableAction.active_events?.length === 0 && (
           <Text style={styles.actionMessage}>Brak akcji</Text>
         )}
@@ -57,22 +58,23 @@ export default function DeviceEventWizzard() {
             </Pressable>
           </View>
         ))}
-        <ConfirmDelete
-          onCancel={() => setDisplayDeleteConfirm(false)}
-          onConfirm={() => {
-            deleteMutation.mutate();
-            setDisplayDeleteConfirm(false);
-          }}
-          name="akcje"
-          visible={displayDeleteConfirm}
-        />
       </View>
-      <StyledLink
-        style={styles.addEventButton}
-        to={`/Wizard/Event/${device_fun}/${device_id}/Add/`}
-      >
-        Dodaj akcje
-      </StyledLink>
+      <ButtonContainer style={styles.buttonContainer}>
+        <StyledLink to={`/Wizard/Event/${device_fun}/${device_id}/Add/`}>
+          Dodaj akcje
+        </StyledLink>
+        <StyledLink to={`/`}>Wróć</StyledLink>
+      </ButtonContainer>
+
+      <ConfirmDelete
+        onCancel={() => setDisplayDeleteConfirm(false)}
+        onConfirm={() => {
+          deleteMutation.mutate();
+          setDisplayDeleteConfirm(false);
+        }}
+        name="akcje"
+        visible={displayDeleteConfirm}
+      />
     </View>
   );
 }
@@ -82,11 +84,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
     marginBottom: 60,
-  },
-  section: {
-    width: "100%",
+    padding: 20,
   },
   actionMessage: {
     fontSize: 18,
@@ -94,10 +93,12 @@ const styles = StyleSheet.create({
     color: color.text.primary,
     textAlign: "center",
   },
-  addEventButton: {
-    width: "100%",
+  buttonContainer: {
     position: "absolute",
-    bottom: 15,
+    bottom: 0,
+    width: "110%",
+    flexDirection: "column",
+    padding: 20,
   },
   deleteIcon: {
     width: 25,
@@ -108,6 +109,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 7,
+    marginHorizontal: 5,
   },
   eventText: {
     fontSize: 12,

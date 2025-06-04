@@ -20,7 +20,7 @@ export default function StyledLink({
   return (
     <TouchableOpacity
       style={[styles.button, style]}
-      onPress={() => navigate.push(to)}
+      onPress={() => (to === "/" ? navigate.back() : navigate.push(to))}
     >
       <Text style={styles.text}>{children}</Text>
     </TouchableOpacity>

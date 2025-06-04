@@ -124,7 +124,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: "100%",
     flexDirection: "column",
-    marginBottom: 20,
     padding: 20,
   },
 });

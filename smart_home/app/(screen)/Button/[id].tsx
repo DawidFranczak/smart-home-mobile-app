@@ -1,6 +1,7 @@
 import DeviceEventDisplay from "@/src/components/DeviceEventDisplay";
 import useButtonQuery from "@/src/hooks/queries/useButtonQuery";
 import { IEvent } from "@/src/interfaces/IEvent";
+import textBackground from "@/src/styles/textBackground";
 import DeviceContainer from "@/src/ui/DeviceContainer";
 import StyledLink from "@/src/ui/StyledLink";
 import { useLocalSearchParams } from "expo-router";
@@ -19,14 +20,17 @@ export default function ButtonPage() {
       id={buttonData.id}
     >
       <View style={styles.container}>
-        {buttonData.events?.map((event: IEvent) => (
-          <DeviceEventDisplay
-            key={event.id}
-            action={event.action}
-            device={event.device}
-            event={event.event}
-          />
-        ))}
+        <View style={[styles.eventContainer, textBackground.background]}>
+          {buttonData.events?.map((event: IEvent) => (
+            <DeviceEventDisplay
+              key={event.id}
+              action={event.action}
+              device={event.device}
+              event={event.event}
+              style={styles.eventText}
+            />
+          ))}
+        </View>
         <View style={styles.buttonContainer}>
           <StyledLink
             type="button"
@@ -44,6 +48,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     padding: 20,
     marginBottom: 60,
   },
@@ -52,5 +57,11 @@ const styles = StyleSheet.create({
     bottom: 15,
     width: "100%",
     gap: 10,
+  },
+  eventContainer: {
+    alignItems: "center",
+  },
+  eventText: {
+    fontSize: 12,
   },
 });
