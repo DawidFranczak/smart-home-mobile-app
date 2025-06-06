@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import DeviceEventDisplay from "../DeviceEventDisplay";
 import { IButton } from "@/src/interfaces/IButton";
 import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 import StyledLink from "@/src/ui/StyledLink";
+import color from "@/src/styles/color";
 
 interface ButtonCardProps {
   button: IButton;
@@ -19,7 +20,7 @@ export default function ButtonCard({ button }: ButtonCardProps) {
       id={button.id}
     >
       <View style={styles.eventsContainer}>
-        {button.events?.map((event) => (
+        {button.events?.slice(0, 3).map((event) => (
           <DeviceEventDisplay
             key={event.id}
             action={event.action}
@@ -27,6 +28,12 @@ export default function ButtonCard({ button }: ButtonCardProps) {
             event={event.event}
           />
         ))}
+        {button.events && button.events.length > 3 && (
+          <Text style={{ color: color.text.secondary }}>...</Text>
+        )}
+        {(!button.events || button.events.length === 0) && (
+          <Text style={{ color: color.text.secondary }}>Brak zdarzeń</Text>
+        )}
       </View>
       <StyledLink type="button" to={`/Button/${button.id}/`}>
         Wybierz

@@ -1,32 +1,33 @@
 import DeviceEventDisplay from "@/src/components/DeviceEventDisplay";
-import useButtonQuery from "@/src/hooks/queries/useButtonQuery";
+import useRfidQuery from "@/src/hooks/queries/useRfidQuery";
 import { IEvent } from "@/src/interfaces/IEvent";
 import color from "@/src/styles/color";
 import textBackground from "@/src/styles/textBackground";
-import textWithLights from "@/src/styles/textWithLights";
+import ButtonContainer from "@/src/ui/ButtonContainer";
 import DeviceContainer from "@/src/ui/DeviceContainer";
 import StyledLink from "@/src/ui/StyledLink";
 import { useLocalSearchParams } from "expo-router";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 
-export default function ButtonPage() {
-  const params = useLocalSearchParams().id;
-  const id = parseInt(params as string, 10);
-  const { buttonData } = useButtonQuery(id);
-  if (!buttonData) return <ActivityIndicator size="large" />;
+export default function RfidPage() {
+  const params: { id: string } = useLocalSearchParams();
+  const id = params.id ? parseInt(params.id) : 0;
+  const { rfidData } = useRfidQuery(id);
+
+  if (!rfidData) return <ActivityIndicator size="large" />;
   return (
     <DeviceContainer
-      name={buttonData.name}
-      wifiStrength={buttonData.wifi_strength}
-      isOnline={buttonData.is_online}
-      id={buttonData.id}
+      name={rfidData.name}
+      wifiStrength={rfidData.wifi_strength}
+      isOnline={rfidData.is_online}
+      id={rfidData.id}
     >
       <View style={styles.container}>
         <View style={[styles.eventContainer, textBackground.background]}>
-          {buttonData.events?.length === 0 && (
+          {rfidData.events?.length === 0 && (
             <Text style={styles.eventText}>Brak akcji</Text>
           )}
-          {buttonData.events?.map((event: IEvent) => (
+          {rfidData.events?.map((event: IEvent) => (
             <DeviceEventDisplay
               key={event.id}
               action={event.action}
@@ -36,19 +37,21 @@ export default function ButtonPage() {
             />
           ))}
         </View>
-        <View style={styles.buttonContainer}>
+        <ButtonContainer style={styles.buttonContainer}>
+          <StyledLink type="button" to={`/Rfid/${rfidData.id}/Card/`}>
+            Karty
+          </StyledLink>
           <StyledLink
             type="button"
-            to={`/Wizzard/Event/${buttonData.fun}/${buttonData.id}/`}
+            to={`/Wizzard/Event/${rfidData.fun}/${rfidData.id}/`}
           >
             Ustawienia zdarzenia
           </StyledLink>
-        </View>
+        </ButtonContainer>
       </View>
     </DeviceContainer>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -62,6 +65,7 @@ const styles = StyleSheet.create({
     bottom: 15,
     width: "100%",
     gap: 10,
+    flexDirection: "column",
   },
   eventContainer: {
     alignItems: "center",

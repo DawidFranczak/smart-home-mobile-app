@@ -5,7 +5,7 @@ import color from "../styles/color";
 
 interface IStyledLinkProps {
   children: React.ReactNode;
-  to: Href;
+  to: string;
   type?: "button" | "link";
   style?: ViewStyle;
 }
@@ -20,7 +20,7 @@ export default function StyledLink({
   return (
     <TouchableOpacity
       style={[styles.button, style]}
-      onPress={() => (to === "/" ? navigate.back() : navigate.push(to))}
+      onPress={() => (to === "/" ? navigate.back() : navigate.push(to as any))}
     >
       <Text style={styles.text}>{children}</Text>
     </TouchableOpacity>

@@ -20,17 +20,24 @@ export default function RfidCard({ rfid }: RfidCardProps) {
       id={rfid.id}
     >
       <View style={styles.eventContainer}>
-        {rfid.events?.map((event) => (
-          <DeviceEventDisplay
-            key={event.id}
-            action={event.action}
-            device={event.device}
-            event={event.event}
-          />
-        ))}
+        {rfid.events &&
+          rfid.events.map((event) => (
+            <DeviceEventDisplay
+              key={event.id}
+              action={event.action}
+              device={event.device}
+              event={event.event}
+            />
+          ))}
+        {rfid.events && rfid.events.length > 3 && (
+          <Text style={{ color: color.text.secondary }}>...</Text>
+        )}
+        {(!rfid.events || rfid.events.length === 0) && (
+          <Text style={{ color: color.text.secondary }}>Brak zdarzeń</Text>
+        )}
       </View>
       <Text style={styles.tekst}>Ilość kart: {rfid.cards.length}</Text>
-      <StyledLink type="button" to={`/rfid/${rfid.id}/`}>
+      <StyledLink type="button" to={`/Rfid/${rfid.id}/`}>
         Wybierz
       </StyledLink>
     </DeviceCardContainer>

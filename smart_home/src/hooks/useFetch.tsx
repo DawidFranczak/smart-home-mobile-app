@@ -1,5 +1,6 @@
 import { api } from "../const/api";
 import { useAuth } from "../context/AuthContext";
+import CustomError from "../utils/CustomError";
 import { getSecureValue } from "../utils/storage";
 
 interface useFetchReturn {
@@ -13,14 +14,6 @@ interface useFetchReturn {
     body: any
   ) => Promise<{ status: number; data: any }>;
   deleteData: (url: string) => Promise<{ status: number }>;
-}
-
-class CustomError extends Error {
-  details: { [key: string]: string[] };
-  constructor(message: string, details: { [key: string]: string[] }) {
-    super(message);
-    this.details = details;
-  }
 }
 
 export default function useFetch(): useFetchReturn {

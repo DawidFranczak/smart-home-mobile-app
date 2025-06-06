@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, TextStyle } from "react-native";
+import color from "../styles/color";
 
 interface IDeviceEventProps {
   action: string;
@@ -24,7 +25,7 @@ export default function DeviceEventDisplay({
 const styles = StyleSheet.create({
   eventText: {
     fontSize: 10,
-    color: "#00ffff",
+    color: color.text.secondary,
     marginVertical: 5,
   },
 });

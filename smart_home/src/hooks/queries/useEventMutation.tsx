@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useFetch from "../useFetch";
 import { api } from "../../../src/const/api";
-import IEvent from "../../interfaces/IEvent";
+import { IEvent } from "@/src/interfaces/IEvent";
 interface IAvailableAction {
   active_events: IEvent[];
   device_id: number;
@@ -14,6 +14,7 @@ export default function useEventMutation() {
     return useMutation({
       mutationFn: (data: any) => createData(`${api.event}${id}/`, data),
       onSuccess: (data) => {
+        console.log(data);
         const oldData: { status: number; data: IAvailableAction } | undefined =
           queryClient.getQueryData(["availableAction", id]);
         if (oldData) {
