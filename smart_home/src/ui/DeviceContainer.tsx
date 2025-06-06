@@ -11,6 +11,7 @@ interface DeviceContainerProps {
   isOnline: boolean;
   children: React.ReactNode;
   id: number;
+  editable?: boolean;
 }
 
 export default function DeviceContainer({
@@ -19,6 +20,7 @@ export default function DeviceContainer({
   isOnline,
   children,
   id,
+  editable = true,
 }: DeviceContainerProps) {
   return (
     <View style={styles.container}>
@@ -27,9 +29,13 @@ export default function DeviceContainer({
         style={styles.wifiPosition}
         imageStyle={styles.wifiIcon}
       />
-      <ChangeName type="device" id={id}>
+      {editable ? (
+        <ChangeName type="device" id={id}>
+          <Header style={styles.header}>{name}</Header>
+        </ChangeName>
+      ) : (
         <Header style={styles.header}>{name}</Header>
-      </ChangeName>
+      )}
       {children}
     </View>
   );
