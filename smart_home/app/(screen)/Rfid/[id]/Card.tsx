@@ -4,6 +4,7 @@ import { ICard } from "@/src/interfaces/IRfid";
 import textBackground from "@/src/styles/textBackground";
 import textWithLights from "@/src/styles/textWithLights";
 import StyledLink from "@/src/ui/StyledLink";
+import { useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -22,6 +23,11 @@ export default function RfidCard() {
   const params: { id: string } = useLocalSearchParams();
   const id = params.id ? parseInt(params.id) : 0;
   const { rfidData } = useRfidQuery(id);
+  const queries = useQueryClient().getQueryCache().getAll();
+  console.log("All cached queries:");
+  queries.forEach((query) => {
+    console.log(query.queryKey, query.state.data);
+  });
 
   useEffect(() => {
     if (rfidData) {
@@ -36,7 +42,6 @@ export default function RfidCard() {
     });
     setCards(filteredCards);
   }
-
   if (cards === undefined) return <ActivityIndicator size="large" />;
   return (
     <View>

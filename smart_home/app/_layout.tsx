@@ -5,9 +5,9 @@ import { Slot } from "expo-router";
 import BackgroundChanger from "../src/components/BackgroundChanger";
 import { useEffect } from "react";
 import { AuthProvider } from "@/src/context/AuthContext";
+const queryClient = new QueryClient();
 
 export default function _layout() {
-  const queryClient = new QueryClient();
   useEffect(() => {
     SystemUI.setBackgroundColorAsync("#000000");
   }, []);
