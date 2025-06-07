@@ -3,6 +3,7 @@ import useRfidQuery from "@/src/hooks/queries/useRfidQuery";
 import { ICard } from "@/src/interfaces/IRfid";
 import textBackground from "@/src/styles/textBackground";
 import textWithLights from "@/src/styles/textWithLights";
+import QueryInput from "@/src/ui/QueryInput";
 import StyledLink from "@/src/ui/StyledLink";
 import { useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
@@ -24,10 +25,6 @@ export default function RfidCard() {
   const id = params.id ? parseInt(params.id) : 0;
   const { rfidData } = useRfidQuery(id);
   const queries = useQueryClient().getQueryCache().getAll();
-  console.log("All cached queries:");
-  queries.forEach((query) => {
-    console.log(query.queryKey, query.state.data);
-  });
 
   useEffect(() => {
     if (rfidData) {
@@ -44,7 +41,8 @@ export default function RfidCard() {
   }
   if (cards === undefined) return <ActivityIndicator size="large" />;
   return (
-    <View>
+    <View style={styles.container}>
+      <QueryInput onChange={handleFilterCards} />
       {!cards.length && (
         <Text style={[textBackground.background, textWithLights]}>
           Brak kart
@@ -66,6 +64,11 @@ export default function RfidCard() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginBottom: 60,
+    justifyContent: "space-between",
+  },
   item: {
     width: width / 2 - 10,
     margin: 5,

@@ -5,6 +5,7 @@ import RoomCard from "@/src/components/Cards/RoomCard";
 import { IRoom } from "@/src/interfaces/IRoom";
 import QueryInput from "@/src/ui/QueryInput";
 import { useEffect, useState } from "react";
+import StyledLink from "@/src/ui/StyledLink";
 
 export default function Room() {
   const { roomData } = useRoomQuery(undefined) as { roomData: IRoom[] };
@@ -24,7 +25,7 @@ export default function Room() {
   return (
     <View style={styles.container}>
       <QueryInput onChange={handleRoomQuery} />
-      <Button onPress={() => {}}>Dodaj</Button>
+      <StyledLink to="/Room/AddRoom">Dodaj pokój</StyledLink>
       <FlatList
         numColumns={2}
         data={query}

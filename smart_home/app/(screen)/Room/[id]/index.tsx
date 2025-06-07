@@ -1,4 +1,4 @@
-import { StyleSheet, View, Dimensions, FlatList } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import useRoomQuery from "@/src/hooks/queries/useRoomQuery";
@@ -9,7 +9,6 @@ import QueryInput from "@/src/ui/QueryInput";
 import StyledLink from "@/src/ui/StyledLink";
 import getDeviceComponent from "@/src/utils/getDeviceCard";
 
-const screenWidth = Dimensions.get("window").width;
 export default function SelectedRoom() {
   const param = useLocalSearchParams();
   const { roomData } = useRoomQuery(Number(param.id));
@@ -34,7 +33,7 @@ export default function SelectedRoom() {
       <QueryInput onChange={handleFilter} />
       <ButtonContainer>
         <Button>Edytuj</Button>
-        <StyledLink type="button" to={`/Room/${param.id}/add`}>
+        <StyledLink type="button" to={`/Room/${param.id}/AddDevice`}>
           Dodaj urządzenie
         </StyledLink>
       </ButtonContainer>
