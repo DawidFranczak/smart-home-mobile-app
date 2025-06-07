@@ -13,11 +13,10 @@ export default function updateRoomDeviceData(
   };
   if (!oldData) return;
   const oldRoomData = oldData.data;
-  const roomDevice = oldRoomData.device;
-  for (let i = 0; i < roomDevice.length; i++) {
-    if (roomDevice[i].id === response.data.id) roomDevice[i] = response.data;
-  }
-  const newRoomData = { ...oldRoomData, device: roomDevice };
+  const updatedDevices = oldRoomData.device.map((device) =>
+    device.id === response.data.id ? response.data : device
+  );
+  const newRoomData = { ...oldRoomData, device: updatedDevices };
   queryClient.setQueryData(["room", roomId], {
     status: response.status,
     data: newRoomData,

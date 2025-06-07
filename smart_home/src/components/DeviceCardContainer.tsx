@@ -22,8 +22,7 @@ export default function DeviceCardContainer({
   id,
   children,
 }: IDeviceCardContainerProps) {
-  const [isFavouriteState, setIsFavouriteState] = useState(isFavourite);
-
+  let isFavouriteState = isFavourite;
   return (
     <View style={cardBackgroung.container}>
       <Header>{name}</Header>
@@ -33,7 +32,7 @@ export default function DeviceCardContainer({
       </View>
 
       <View style={styles.starContainer}>
-        <Pressable onPress={() => setIsFavouriteState((prev) => !prev)}>
+        <Pressable onPress={() => (isFavouriteState = !isFavouriteState)}>
           <FavouriteStar isFavourite={isFavouriteState} id={id} type="device" />
         </Pressable>
       </View>

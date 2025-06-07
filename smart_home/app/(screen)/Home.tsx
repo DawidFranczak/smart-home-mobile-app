@@ -77,6 +77,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   item: {
-    width: (screenWidth - 5) / 2,
+    width: screenWidth / 2,
   },
 });

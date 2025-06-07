@@ -7,7 +7,14 @@ import StyledLink from "@/src/ui/StyledLink";
 import Button from "@/src/ui/Button";
 import InputText from "@/src/ui/InputText";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Modal, StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import textBackground from "@/src/styles/textBackground";
 import CustomError from "@/src/utils/CustomError";
 import useRfidQuery from "@/src/hooks/queries/useRfidQuery";
@@ -45,7 +52,10 @@ export default function AddCard() {
     mutation.mutate(name);
   }
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
       <View style={[textBackground.background, styles.form]}>
         <Header>Dodaj karte</Header>
         <InputText placeholder="Nazwa karty" onChange={setName} />
@@ -71,7 +81,7 @@ export default function AddCard() {
           <ActivityIndicator size="large" />
         </View>
       </Modal>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

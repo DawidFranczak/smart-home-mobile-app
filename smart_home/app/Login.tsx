@@ -4,6 +4,8 @@ import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   Alert,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -34,7 +36,10 @@ export default function Login() {
     mutation.mutate({ username, password });
   };
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
+    >
       <Text style={styles.title}>Logowanie</Text>
 
       <TextInput
@@ -60,7 +65,7 @@ export default function Login() {
       <TouchableOpacity>
         <Text style={styles.link}>Nie pamiętasz hasła?</Text>
       </TouchableOpacity>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 

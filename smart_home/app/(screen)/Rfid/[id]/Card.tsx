@@ -58,7 +58,9 @@ export default function RfidCard() {
           keyExtractor={(item) => item.id.toString()}
         />
       )}
-      <StyledLink to={`/Rfid/${rfidData.id}/CardAdd`}>Dodaj Karte</StyledLink>
+      <StyledLink style={styles.button} to={`/Rfid/${rfidData.id}/CardAdd`}>
+        Dodaj Karte
+      </StyledLink>
     </View>
   );
 }
@@ -72,5 +74,8 @@ const styles = StyleSheet.create({
   item: {
     width: width / 2 - 10,
     margin: 5,
+  },
+  button: {
+    margin: 20,
   },
 });

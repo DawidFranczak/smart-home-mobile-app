@@ -22,14 +22,18 @@ export default function AddDevice() {
     <View style={styles.container}>
       <View style={[textBackground.background, styles.section]}>
         <Header style={styles.header}>Przypisz urządzenie</Header>
-        {status === 404 && (
+        {unassignedDeviceData.length === 0 && (
           <Text style={styles.text}>Brak nowo dodanych urządzeń</Text>
         )}
         {status === 200 &&
           unassignedDeviceData.map((device: IDevice) => (
             <View style={styles.row} key={device.id}>
-              <Text>{device.fun}</Text>
-              <Text>{device.last_seen.split("T")[1].slice(0, 5)}</Text>
+              <View style={styles.textContainer}>
+                <Text style={styles.text}>{device.fun}</Text>
+                <Text style={styles.text}>
+                  {device.last_seen.split("T")[1].slice(0, 5)}
+                </Text>
+              </View>
               <Button onPress={() => addDevice(device.id)}>Przypisz</Button>
             </View>
           ))}
@@ -51,6 +55,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
+  textContainer: {
+    flexDirection: "row",
+    gap: 30,
+  },
   text: {
     fontSize: 18,
     fontWeight: "bold",
@@ -65,5 +73,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
+    gap: 30,
   },
 });

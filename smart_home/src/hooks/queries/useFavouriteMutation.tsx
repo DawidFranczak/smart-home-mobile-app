@@ -17,7 +17,6 @@ export default function useFavouriteMutation(
   const mutation = useMutation({
     mutationFn: (data: IFavouriteData) => updateData(api.favourite, data),
     onSuccess: (response, data: IFavouriteData) => {
-      console.log(data);
       updateFavouriteData(queryClient, response, data.type);
       if (data.type === "room") updateRoomData(queryClient, response);
       else updateRoomDeviceData(queryClient, response);

@@ -60,7 +60,7 @@ export default function DeviceEventWizzard() {
         ))}
       </View>
       <ButtonContainer style={styles.buttonContainer}>
-        <StyledLink to={`/Wizard/Event/${device_fun}/${device_id}/Add/`}>
+        <StyledLink to={`/Wizzard/Event/${device_fun}/${device_id}/Add/`}>
           Dodaj akcje
         </StyledLink>
         <StyledLink to={`/`}>Wróć</StyledLink>
