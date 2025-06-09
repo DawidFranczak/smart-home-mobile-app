@@ -8,6 +8,7 @@ import RoomCard from "@/src/components/Cards/RoomCard";
 import getDeviceComponent from "@/src/utils/getDeviceCard";
 import cardBackgroung from "@/src/styles/cardBackgroung";
 import textWithLights from "@/src/styles/textWithLights";
+import Loading from "@/src/components/Loading";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -33,7 +34,7 @@ export default function Home() {
       })
     );
   }
-  if (!favouriteDevice || !favouriteRoom) return null;
+  if (!favouriteDevice || !favouriteRoom) return <Loading />;
   return (
     <ScrollView style={styles.container}>
       <QueryInput onChange={handleQueryChange} />

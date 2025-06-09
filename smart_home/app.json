@@ -4,7 +4,7 @@
     "slug": "smart_home",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/delete.png",
+    "icon": "./assets/images/icon_start.png",
     "scheme": "smarthome",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -27,7 +27,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/favourite_select.png",
+          "image": "./assets/images/start.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

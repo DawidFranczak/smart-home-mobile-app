@@ -1,23 +1,24 @@
 import { Link } from "expo-router";
 import { usePathname } from "expo-router";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity } from "react-native";
+import INavbarLink from "../interfaces/INavbarLink";
 
-interface NavbarLinkProps {
-  image: any;
-  text: string;
-  url: "/Home" | "/Room" | "/Router" | "/Login";
-}
-export default function NavbarLink({ image, text, url }: NavbarLinkProps) {
+export default function NavbarLink({
+  image,
+  text,
+  url,
+  textStyle,
+}: INavbarLink) {
   const pathName = usePathname();
   const selected = pathName === url;
-  const style = selected
+  const seledtedStyle = selected
     ? { ...styles.image, ...styles.selected }
     : styles.image;
   return (
     <Link asChild href={url}>
       <TouchableOpacity style={styles.container}>
-        <Image source={image} style={style} />
-        <Text style={styles.text}>{text}</Text>
+        {image && <Image style={seledtedStyle} source={image} />}
+        <Text style={[styles.text, textStyle]}>{text}</Text>
       </TouchableOpacity>
     </Link>
   );
@@ -25,11 +26,8 @@ export default function NavbarLink({ image, text, url }: NavbarLinkProps) {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    textAlign: "center",
   },
   text: {
     color: "#0ff",

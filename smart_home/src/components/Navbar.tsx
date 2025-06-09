@@ -1,50 +1,29 @@
-import { View, StyleSheet, TouchableOpacity, Image, Text } from "react-native";
-import { useRouter } from "expo-router";
-import { useMutation } from "@tanstack/react-query";
-
-import { api } from "../const/api";
-import useFetch from "../hooks/useFetch";
-import { useAuth } from "../context/AuthContext";
+import { View, StyleSheet } from "react-native";
 import NavbarLink from "../ui/NavbarLink";
 
 export default function Navbar() {
-  const { deleteData } = useFetch();
-  const { logout } = useAuth();
-  const router = useRouter();
-  const mutation = useMutation({
-    mutationFn: () => deleteData(api.logout),
-    onSuccess: (response) => {
-      logout();
-      router.push("/Login");
-    },
-  });
-  async function logoutHandler() {
-    mutation.mutate();
-  }
   return (
     <View style={styles.container}>
       <NavbarLink
-        image={require("../../assets/images/room.png")}
-        text={"home"}
+        image={require("../../assets/images/dashboard.png")}
+        text={"Pulpit"}
         url="/Home"
       />
       <NavbarLink
         image={require("../../assets/images/room.png")}
-        text={"pokoje"}
+        text={"Pokoje"}
         url="/Room"
       />
       <NavbarLink
-        image={require("../../assets/images/router.png")}
-        text={"ruter"}
-        url="/Router"
+        image={require("../../assets/images/device.png")}
+        text={"Urzadzenia"}
+        url="/Device"
       />
-      <TouchableOpacity style={styles.logout} onPress={logoutHandler}>
-        <Image
-          style={styles.image}
-          source={require("../../assets/images/logout.png")}
-        />
-        <Text style={styles.text}>Wyloguj</Text>
-      </TouchableOpacity>
+      <NavbarLink
+        image={require("../../assets/images/3dot.png")}
+        text={"Wiecej"}
+        url="/More"
+      />
     </View>
   );
 }

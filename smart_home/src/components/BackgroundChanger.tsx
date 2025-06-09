@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Animated, ImageBackground, StyleSheet } from "react-native";
+import { ImageBackground, StyleSheet, View } from "react-native";
 import { usePathname } from "expo-router";
 
 const backgrounds: Record<string, any> = {
@@ -13,7 +13,6 @@ const backgrounds: Record<string, any> = {
   Lamp: require("../../assets/images/lamps_bg.png"),
   Router: require("../../assets/images/router_bg.png"),
 };
-
 const BackgroundChanger: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -22,31 +21,16 @@ const BackgroundChanger: React.FC<{ children: React.ReactNode }> = ({
   const [currentBg, setCurrentBg] = useState(
     backgrounds[screenName] || backgrounds.Home
   );
-  const fadeAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     const newBg = backgrounds[screenName] || backgrounds.Home;
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start(() => {
-      setCurrentBg(newBg);
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
-    });
+    setCurrentBg(newBg);
   }, [screenName]);
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <ImageBackground source={currentBg} style={styles.background}>
-        <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
-          {children}
-        </Animated.View>
-      </ImageBackground>
+    <SafeAreaView style={styles.container}>
+      <ImageBackground source={currentBg} style={styles.background} />
+      <View style={styles.overlay}>{children}</View>
     </SafeAreaView>
   );
 };
@@ -56,7 +40,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   background: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  overlay: {
     flex: 1,
+    backgroundColor: "transparent",
   },
 });
 
