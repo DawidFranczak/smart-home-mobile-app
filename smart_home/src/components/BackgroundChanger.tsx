@@ -23,12 +23,12 @@ const BackgroundChanger: React.FC<{ children: React.ReactNode }> = ({
   const [currentBg, setCurrentBg] = useState(
     backgrounds[screenName] || backgrounds.Home
   );
-  const [prevBg, setPrevBg] = useState(backgrounds.Home);
+  const [prevBg, setPrevBg] = useState(backgrounds.Login);
   const oppacityIn = useRef(new Animated.Value(0)).current;
   const oppacityOut = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
-    const newBg = backgrounds[screenName] || backgrounds.Home;
+    const newBg = backgrounds[screenName] || backgrounds.Login;
     if (currentBg === newBg) return;
     setCurrentBg(newBg);
     setPrevBg(currentBg);

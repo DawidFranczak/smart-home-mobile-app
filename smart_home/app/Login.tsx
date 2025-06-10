@@ -1,5 +1,7 @@
 import { useAuth } from "@/src/context/AuthContext";
 import useLoginMutation from "@/src/hooks/queries/useLoginMutation";
+import ButtonContainer from "@/src/ui/ButtonContainer";
+import StyledLink from "@/src/ui/StyledLink";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import {
@@ -10,7 +12,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
 } from "react-native";
 
 export default function Login() {
@@ -58,13 +59,19 @@ export default function Login() {
       />
       {error && <Text style={{ color: "red", marginBottom: 10 }}>{error}</Text>}
 
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Zaloguj się</Text>
-      </TouchableOpacity>
+      <ButtonContainer style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Zaloguj się</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity>
-        <Text style={styles.link}>Nie pamiętasz hasła?</Text>
-      </TouchableOpacity>
+        <StyledLink to="/Register" type="link">
+          Nie masz konta?
+        </StyledLink>
+
+        <TouchableOpacity>
+          <Text style={styles.link}>Nie pamiętasz hasła?</Text>
+        </TouchableOpacity>
+      </ButtonContainer>
     </KeyboardAvoidingView>
   );
 }
@@ -102,6 +109,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 20,
   },
+  buttonContainer: {
+    width: "100%",
+    flexDirection: "column",
+  },
   buttonText: {
     color: "white",
     fontSize: 18,
@@ -111,5 +122,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
     color: "#rgba(255, 0, 0, 1)",
     fontSize: 14,
+    textAlign: "center",
   },
 });
