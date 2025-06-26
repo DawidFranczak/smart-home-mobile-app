@@ -5,6 +5,7 @@ export default function More() {
   const data: INavbarLink[] = [
     { text: "Wyloguj", url: "/Logout" },
     { text: "Zmiana hasła", url: "/More/ChangePassword" },
+    { text: "Kamery", url: "/More/Camera" },
   ];
 
   return (
