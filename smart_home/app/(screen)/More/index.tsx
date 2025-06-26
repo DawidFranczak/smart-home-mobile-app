@@ -2,7 +2,10 @@ import INavbarLink from "@/src/interfaces/INavbarLink";
 import NavbarLink from "@/src/ui/NavbarLink";
 import { FlatList, StyleSheet, View } from "react-native";
 export default function More() {
-  const data: INavbarLink[] = [{ text: "Wyloguj", url: "/Logout" }];
+  const data: INavbarLink[] = [
+    { text: "Wyloguj", url: "/Logout" },
+    { text: "Zmiana hasła", url: "/More/ChangePassword" },
+  ];
 
   return (
     <FlatList<INavbarLink>

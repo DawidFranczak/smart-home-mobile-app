@@ -16,6 +16,7 @@ interface InputNumberProps {
   value?: string;
   autoFocus?: boolean;
   ref?: RefObject<TextInput | null>;
+  secureTextEntry?: boolean;
 }
 
 export default function InputText({
@@ -26,6 +27,7 @@ export default function InputText({
   placeholder,
   autoFocus,
   ref,
+  secureTextEntry = false,
 }: InputNumberProps) {
   return (
     <View style={[styles.container, viewStyle]}>
@@ -37,6 +39,7 @@ export default function InputText({
         value={value}
         onChangeText={onChange}
         placeholderTextColor={color.text.secondary}
+        secureTextEntry={secureTextEntry}
       />
     </View>
   );

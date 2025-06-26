@@ -10,6 +10,7 @@ export default interface INavbarLink {
     | "/Router"
     | "/Login"
     | "/More"
+    | "/More/ChangePassword"
     | "/Logout";
   image?: any;
   textStyle?: TextStyle;

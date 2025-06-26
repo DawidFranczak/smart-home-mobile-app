@@ -12,6 +12,7 @@ const backgrounds: Record<string, any> = {
   Rfid: require("../../assets/images/rfid_bg.png"),
   Lamp: require("../../assets/images/lamps_bg.png"),
   Router: require("../../assets/images/router_bg.png"),
+  More: require("../../assets/images/settings_bg.png"),
 };
 const AnimatedImageBackground =
   Animated.createAnimatedComponent(ImageBackground);
