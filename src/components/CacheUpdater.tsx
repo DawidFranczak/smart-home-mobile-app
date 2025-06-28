@@ -18,7 +18,9 @@ export default function CacheUpdater() {
     };
     if (!token) return;
     const ws = new WebSocket(`${websockerUrl}/ws/user/${token.token}/`);
-    ws.onopen = (event) => {};
+    ws.onopen = (event) => {
+      console.log("Połączono z serwerem WebSocket", event);
+    };
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       switch (data.action) {

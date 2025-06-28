@@ -1,10 +1,10 @@
-import React from "react";
-import { Text, StyleSheet, View } from "react-native";
-import { IRfid } from "@/src/interfaces/IRfid";
-import DeviceEventDisplay from "../DeviceEventDisplay";
 import DeviceCardContainer from "@/src/components/DeviceCardContainer";
-import StyledLink from "@/src/ui/StyledLink";
+import { IRfid } from "@/src/interfaces/IRfid";
 import color from "@/src/styles/color";
+import StyledLink from "@/src/ui/StyledLink";
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import DeviceEventDisplay from "../DeviceEventDisplay";
 
 interface RfidCardProps {
   rfid: IRfid;
@@ -21,14 +21,18 @@ export default function RfidCard({ rfid }: RfidCardProps) {
     >
       <View style={styles.eventContainer}>
         {rfid.events &&
-          rfid.events.map((event) => (
-            <DeviceEventDisplay
-              key={event.id}
-              action={event.action}
-              device={event.device}
-              event={event.event}
-            />
-          ))}
+          rfid.events.map((event, inx) => {
+            if (inx < 2) {
+              return (
+                <DeviceEventDisplay
+                  key={event.id}
+                  action={event.action}
+                  device={event.device}
+                  event={event.event}
+                />
+              );
+            }
+          })}
         {rfid.events && rfid.events.length > 3 && (
           <Text style={{ color: color.text.secondary }}>...</Text>
         )}
