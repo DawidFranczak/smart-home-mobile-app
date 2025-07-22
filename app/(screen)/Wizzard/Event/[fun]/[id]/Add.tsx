@@ -1,6 +1,5 @@
 import useActionByFunctionQuery from "@/src/hooks/queries/useActionByFunctionQuery";
 import useAvailableActionQuery from "@/src/hooks/queries/useAvailableActionQuery";
-import useDeviceByFunctionQuery from "@/src/hooks/queries/useDeviceByFunctionQuery";
 import useEventMutation from "@/src/hooks/queries/useEventMutation";
 import { IDevice } from "@/src/interfaces/IDevice";
 import Button from "@/src/ui/Button";
@@ -10,6 +9,7 @@ import Select from "@/src/ui/Select";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
+import useDeviceByFunctionQuery from "@/src/hooks/queries/device/useDeviceByFunctionQuery";
 
 export default function AddEventForm() {
   const params = useLocalSearchParams<{ id: string; fun: string }>();

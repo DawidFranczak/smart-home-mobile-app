@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useFetch from "../useFetch";
-import { api } from "../../../src/const/api";
+import {api} from "@/src/const/api";
 
 export default function useRouterMutation() {
   const { createData } = useFetch();

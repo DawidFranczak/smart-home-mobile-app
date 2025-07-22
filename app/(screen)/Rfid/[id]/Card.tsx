@@ -1,6 +1,5 @@
 import CardCard from "@/src/components/Cards/CardCard";
-import useRfidQuery from "@/src/hooks/queries/useRfidQuery";
-import { ICard } from "@/src/interfaces/IRfid";
+import {ICard, IRfid} from "@/src/interfaces/IRfid";
 import textBackground from "@/src/styles/textBackground";
 import textWithLights from "@/src/styles/textWithLights";
 import QueryInput from "@/src/ui/QueryInput";
@@ -16,6 +15,7 @@ import {
   Text,
   View,
 } from "react-native";
+import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
 
 const { width } = Dimensions.get("window");
 
@@ -23,9 +23,8 @@ export default function RfidCard() {
   const [cards, setCards] = useState<ICard[]>([]);
   const params: { id: string } = useLocalSearchParams();
   const id = params.id ? parseInt(params.id) : 0;
-  const { rfidData } = useRfidQuery(id);
-  const queries = useQueryClient().getQueryCache().getAll();
-
+  const { device } = useDeviceQuery(id);
+  const rfidData = device as IRfid;
   useEffect(() => {
     if (rfidData) {
       setCards(rfidData.cards);

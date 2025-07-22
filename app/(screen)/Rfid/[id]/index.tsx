@@ -1,5 +1,4 @@
 import DeviceEventDisplay from "@/src/components/DeviceEventDisplay";
-import useRfidQuery from "@/src/hooks/queries/useRfidQuery";
 import { IEvent } from "@/src/interfaces/IEvent";
 import color from "@/src/styles/color";
 import textBackground from "@/src/styles/textBackground";
@@ -8,11 +7,14 @@ import DeviceContainer from "@/src/ui/DeviceContainer";
 import StyledLink from "@/src/ui/StyledLink";
 import { useLocalSearchParams } from "expo-router";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
+import {IRfid} from "@/src/interfaces/IRfid";
 
 export default function RfidPage() {
   const params: { id: string } = useLocalSearchParams();
   const id = params.id ? parseInt(params.id) : 0;
-  const { rfidData } = useRfidQuery(id);
+  const { device } = useDeviceQuery(id);
+  const rfidData = device as IRfid;
 
   if (!rfidData) return <ActivityIndicator size="large" />;
   return (

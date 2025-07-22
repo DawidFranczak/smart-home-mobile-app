@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useFetch from "../useFetch";
-import { api } from "../../../src/const/api";
+import {api} from "@/src/const/api";
+import updateDeviceData from "@/src/utils/updateDeviceData";
 
 export default function useCardMutation() {
   const queryClient = useQueryClient();
@@ -15,8 +16,8 @@ export default function useCardMutation() {
     return useMutation({
       mutationFn: (name: string) =>
         createData(`${api.card}`, { name, rfid: rfidId }),
-      onSuccess: (cardData) => {
-        queryClient.setQueryData(["rfid", rfidId], cardData);
+      onSuccess: (response) => {
+        updateDeviceData(queryClient, response);
       },
     });
   }

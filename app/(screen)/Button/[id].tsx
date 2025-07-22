@@ -1,18 +1,19 @@
 import DeviceEventDisplay from "@/src/components/DeviceEventDisplay";
-import useButtonQuery from "@/src/hooks/queries/useButtonQuery";
 import { IEvent } from "@/src/interfaces/IEvent";
 import color from "@/src/styles/color";
 import textBackground from "@/src/styles/textBackground";
-import textWithLights from "@/src/styles/textWithLights";
 import DeviceContainer from "@/src/ui/DeviceContainer";
 import StyledLink from "@/src/ui/StyledLink";
 import { useLocalSearchParams } from "expo-router";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
+import {IButton} from "@/src/interfaces/IButton";
 
 export default function ButtonPage() {
   const params = useLocalSearchParams().id;
   const id = parseInt(params as string, 10);
-  const { buttonData } = useButtonQuery(id);
+  const { device } = useDeviceQuery(id);
+  const buttonData = device as IButton;
   if (!buttonData) return <ActivityIndicator size="large" />;
   return (
     <DeviceContainer

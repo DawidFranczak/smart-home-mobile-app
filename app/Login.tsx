@@ -1,5 +1,4 @@
 import { useAuth } from "@/src/context/AuthContext";
-import useLoginMutation from "@/src/hooks/queries/useLoginMutation";
 import ButtonContainer from "@/src/ui/ButtonContainer";
 import StyledLink from "@/src/ui/StyledLink";
 import { useRouter } from "expo-router";
@@ -13,6 +12,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import useLoginMutation from "@/src/hooks/queries/useLoginMutation";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -76,52 +76,89 @@ export default function Login() {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+    backgroundColor: '#0f1419',
   },
   title: {
     fontSize: 32,
-    fontWeight: "bold",
-    marginBottom: 40,
-    color: "rgba(0, 200, 255, 1)",
+    fontWeight: '700',
+    color: '#ffffff',
+    textAlign: 'center',
+    marginBottom: 16,
+    letterSpacing: -0.5,
+    textShadowColor: 'rgba(0, 0, 0, 0.3)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 8,
+    fontFamily: 'Inter',
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#d1d5db',
+    textAlign: 'center',
+    marginBottom: 24,
+    fontWeight: '400',
+    fontFamily: 'Inter',
   },
   input: {
-    width: "100%",
+    width: '100%',
     height: 50,
-    borderColor: "#ccc",
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderColor: 'rgba(255, 255, 255, 0.1)',
     borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 15,
-    marginBottom: 15,
-    backgroundColor: "white",
+    borderRadius: 8,
+    paddingLeft: 16,
+    marginBottom: 16,
+    color: '#ffffff',
     fontSize: 16,
+    fontFamily: 'Inter',
   },
-  button: {
-    width: "100%",
-    height: 50,
-    backgroundColor: "#0066cc",
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 10,
-    marginTop: 20,
+
+  error: {
+    color: '#ef4444',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 16,
+    fontFamily: 'Inter',
   },
   buttonContainer: {
-    width: "100%",
-    flexDirection: "column",
+    width: '100%',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 16,
+  },
+  button: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#00ffff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    marginTop: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 6,
+    elevation: 4,
   },
   buttonText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
+    color: '#0f1419',
+    fontSize: 16,
+    fontWeight: '500',
+    fontFamily: 'Inter',
   },
   link: {
-    marginTop: 10,
-    color: "#rgba(255, 0, 0, 1)",
+    color: '#00ffff',
     fontSize: 14,
-    textAlign: "center",
+    textAlign: 'center',
+    marginTop: 16,
+    fontFamily: 'Inter',
+  },
+  loading: {
+    opacity: 0.7,
   },
 });

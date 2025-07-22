@@ -14,19 +14,21 @@ import {
   StyleSheet,
   Text,
   View,
+  ActivityIndicator
 } from "react-native";
 import textBackground from "@/src/styles/textBackground";
 import CustomError from "@/src/utils/CustomError";
-import useRfidQuery from "@/src/hooks/queries/useRfidQuery";
-import { ActivityIndicator } from "react-native";
 import color from "@/src/styles/color";
+import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
+import {IRfid} from "@/src/interfaces/IRfid";
 
 export default function AddCard() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
   const { mutationCreate } = useCardMutation();
   const rfidID = Number(useLocalSearchParams().id);
-  const { rfidData, status } = useRfidQuery(rfidID);
+  const { device, status } = useDeviceQuery(rfidID);
+  const rfidData = device as IRfid;
   const mutation = mutationCreate(rfidID);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function AddCard() {
       setError("To pole jest wymagane");
       return;
     }
-    setError;
+    setError("");
     mutation.mutate(name);
   }
   return (

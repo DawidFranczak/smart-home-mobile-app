@@ -1,19 +1,17 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useFetch from "../useFetch";
-import { api } from "../../../src/const/api";
 import { IAquarium } from "../../interfaces/IAquarium";
+import {api} from "@/src/const/api";
+import updateDeviceData from "@/src/utils/updateDeviceData";
 
 export default function useAquariumMutation(id: number) {
   const { updateData } = useFetch();
   const queryClient = useQueryClient();
-  const mutation = useMutation({
+  return useMutation({
     mutationFn: (aquariumData: IAquarium) =>
       updateData(`${api.aquarium}${id}/`, aquariumData),
-    onSuccess: (data) => {
-      queryClient.setQueryData(["aquarium", id], data);
-      queryClient.invalidateQueries({ queryKey: ["room", data.data.room] });
+    onSuccess: (response) => {
+      updateDeviceData(queryClient, response);
     },
   });
-
-  return mutation;
 }

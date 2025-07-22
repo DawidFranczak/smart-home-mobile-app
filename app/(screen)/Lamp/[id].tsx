@@ -2,7 +2,6 @@ import { useEffect, useReducer } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 
-import useLampQuery from "@/src/hooks/queries/useLampQuery";
 import useLampMutation from "@/src/hooks/queries/useLampMutation";
 import { ILamp } from "@/src/interfaces/ILamp";
 import DeviceContainer from "@/src/ui/DeviceContainer";
@@ -14,6 +13,7 @@ import Button from "@/src/ui/Button";
 import { Text } from "@react-navigation/elements";
 import textBackground from "@/src/styles/textBackground";
 import textWithLights from "@/src/styles/textWithLights";
+import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
 
 function reducer(state: ILamp, action: { type: string; payload: any }) {
   switch (action.type) {
@@ -38,9 +38,10 @@ export default function LampPage() {
   const params = useLocalSearchParams();
   const lampId = params.id ? parseInt(params.id as string, 10) : 0;
   const [state, dispatch] = useReducer(reducer, {} as ILamp);
-  const { lampData } = useLampQuery(lampId);
+  const { device } = useDeviceQuery(lampId);
   const { updateLamp } = useLampMutation();
   const updateMutate = updateLamp(lampId);
+  const lampData = device as ILamp;
 
   useEffect(() => {
     if (lampData) dispatch({ type: "INIT_DATA", payload: lampData });

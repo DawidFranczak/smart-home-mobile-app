@@ -4,24 +4,37 @@ import Message from "@/src/ui/Message";
 import ButtonContainer from "@/src/ui/ButtonContainer";
 import Button from "@/src/ui/Button";
 import StyledLink from "@/src/ui/StyledLink";
-import useRoomMutation from "@/src/hooks/queries/useRoomMutation";
 import InputText from "@/src/ui/InputText";
 import Header from "@/src/ui/Header";
 import { CheckBox } from "@rneui/themed";
 import color from "@/src/styles/color";
 import CustomError from "@/src/utils/CustomError";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import useFetch from "@/src/hooks/useFetch";
+import {api} from "@/src/const/api";
 type visibility = "public" | "private";
 type errors = {
   name?: string[];
   visibility?: string[];
 };
+interface RoomData {
+  name: string;
+  visibility: string;
+}
 export default function AddRoom() {
   const [name, setName] = useState("");
   const [error, setError] = useState<errors>({});
   const [success, setSuccess] = useState(false);
   const [visibility, setVisibility] = useState<visibility>("public");
-  const { createRoom } = useRoomMutation();
-  const mutation = createRoom();
+  const { createData } = useFetch();
+  const queryClient = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: (roomData: RoomData) => createData(api.room, roomData),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["rooms"] });
+    },
+  });
+
   useEffect(() => {
     if (mutation.error instanceof CustomError) {
       setError(mutation.error.details);

@@ -1,13 +1,13 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import useRoomQuery from "@/src/hooks/queries/useRoomQuery";
 import RoomCard from "@/src/components/Cards/RoomCard";
 import { IRoom } from "@/src/interfaces/IRoom";
 import QueryInput from "@/src/ui/QueryInput";
 import { useEffect, useState } from "react";
 import StyledLink from "@/src/ui/StyledLink";
+import usePrefetchRoomQuery from "@/src/hooks/queries/room/usePrefetchRoomQuery";
 
 export default function Room() {
-  const { roomData } = useRoomQuery(undefined) as { roomData: IRoom[] };
+  const { roomData }: { roomData: IRoom[] } = usePrefetchRoomQuery()
   const [query, setQuery] = useState<IRoom[]>([]);
   useEffect(() => {
     if (roomData) {

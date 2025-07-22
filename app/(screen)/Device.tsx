@@ -1,13 +1,13 @@
 import Loading from "@/src/components/Loading";
-import useDeviceQuery from "@/src/hooks/queries/useDeviceQuery";
 import { IDevice } from "@/src/interfaces/IDevice";
 import QueryInput from "@/src/ui/QueryInput";
 import getDeviceComponent from "@/src/utils/getDeviceCard";
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
+import usePrefetchDeviceQuery from "@/src/hooks/queries/device/usePrefetchDeviceQuery";
 
 export default function Device() {
-  const { deviceData } = useDeviceQuery();
+  const { deviceData } = usePrefetchDeviceQuery();
   const [query, setQuery] = useState<IDevice[]>([]);
   useEffect(() => {
     if (deviceData) {

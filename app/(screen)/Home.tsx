@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useMemo, useState} from "react";
 import { IRoom } from "../../src/interfaces/IRoom";
 import { IDevice } from "../../src/interfaces/IDevice";
 import { StyleSheet, Text, View, Dimensions, ScrollView } from "react-native";
@@ -9,18 +9,26 @@ import getDeviceComponent from "@/src/utils/getDeviceCard";
 import cardBackgroung from "@/src/styles/cardBackgroung";
 import textWithLights from "@/src/styles/textWithLights";
 import Loading from "@/src/components/Loading";
+import useDevicesQuery from "@/src/hooks/queries/device/useDevicesQuery";
+import useRoomsQuery from "@/src/hooks/queries/room/useRoomsQuery";
+import PageContainer from "@/src/ui/PageContainer";
+import PageHeader from "@/src/ui/PageHeader";
 
 const screenWidth = Dimensions.get("window").width;
 
 export default function Home() {
+  const { favouriteData } = useFavouriteQuery();
+  const { devices } = useDevicesQuery(favouriteData?.devices || []);
+  const { rooms } = useRoomsQuery(favouriteData?.rooms || []);
   const [favouriteRoom, setFavouriteRoom] = useState<IRoom[]>([]);
   const [favouriteDevice, setFavouriteDevice] = useState<IDevice[]>([]);
-  const { favouriteData } = useFavouriteQuery();
+  const memoizedDevices = useMemo(()=> devices, [JSON.stringify(devices)]);
+  const memoizedRooms = useMemo(()=> rooms, [JSON.stringify(rooms)]);
+
   useEffect(() => {
-    if (!favouriteData) return;
-    setFavouriteRoom(favouriteData.rooms);
-    setFavouriteDevice(favouriteData.devices);
-  }, [favouriteData]);
+    if (devices) setFavouriteDevice(devices);
+    if (rooms) setFavouriteRoom(rooms);
+  }, [ memoizedDevices, memoizedRooms]);
 
   function handleQueryChange(query: string) {
     setFavouriteDevice(
@@ -36,36 +44,29 @@ export default function Home() {
   }
   if (!favouriteDevice || !favouriteRoom) return <Loading />;
   return (
-    <ScrollView style={styles.container}>
-      <QueryInput onChange={handleQueryChange} />
-      <View style={styles.section}>
-        <Text style={[styles.title, cardBackgroung.container, textWithLights]}>
-          Pokoje
-        </Text>
-        {favouriteRoom.map((room) => (
-          <View key={room.id} style={styles.item}>
-            <RoomCard room={room} />
-          </View>
-        ))}
-        <Text style={[styles.title, cardBackgroung.container, textWithLights]}>
-          Urządzenia
-        </Text>
-        {favouriteDevice.map((device) => (
-          <View key={device.id} style={styles.item}>
-            {getDeviceComponent(device)}
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+      <PageContainer>
+        <PageHeader title="Dashboard" subtitle="Witaj z powrotem w Smart Home">
+          <QueryInput onChange={handleQueryChange} />
+        </PageHeader>
+          <ScrollView>
+            <View style={styles.section}>
+              {favouriteRoom.map((room) => (
+                <View key={room.id} style={styles.item}>
+                  <RoomCard room={room} />
+                </View>
+              ))}
+              {favouriteDevice.map((device) => (
+                <View key={device.id} style={styles.item}>
+                  {getDeviceComponent(device)}
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+      </PageContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    overflow: "scroll",
-    marginBottom: 60,
-  },
   section: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
     width: "100%",
     textAlign: "center",
     fontSize: 18,
-    marginBottom: 10,
   },
   item: {
     width: screenWidth / 2,

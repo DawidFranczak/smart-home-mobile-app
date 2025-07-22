@@ -2,7 +2,6 @@ import React, { useEffect, useReducer } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { IAquarium } from "@/src/interfaces/IAquarium";
-import useAquariumQuery from "@/src/hooks/queries/useAquariumQuery";
 import useAquariumMutation from "@/src/hooks/queries/useAquariumMutation";
 import Message from "@/src/ui/Message";
 import Button from "@/src/ui/Button";
@@ -14,6 +13,7 @@ import hexToRgb from "@/src/utils/hexToRgb";
 import rgbToHex from "@/src/utils/rgbToHex";
 import textBackground from "@/src/styles/textBackground";
 import textWithLights from "@/src/styles/textWithLights";
+import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
 
 type IAction =
   | {
@@ -69,10 +69,11 @@ function reducer(state: IAquarium, action: IAction) {
 export default function AquariumPage() {
   const params = useLocalSearchParams();
   const id = params.id ? parseInt(params.id as string, 10) : 0;
-  const { aquariumData } = useAquariumQuery(id);
+  const { device, isLoading } = useDeviceQuery(id);
   const mutation = useAquariumMutation(id);
   const mutationErrors = mutation.error;
   const mutationStatus = mutation?.data?.status;
+  const aquariumData = device as IAquarium;
 
   const [state, dispatch] = useReducer(reducer, {} as IAquarium);
   useEffect(() => {

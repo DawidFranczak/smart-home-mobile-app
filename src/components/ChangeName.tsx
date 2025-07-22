@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Pressable, Modal } from "react-native";
-import useDeviceMutation from "../hooks/queries/useDeviceMutation";
 import ChangeNameForm from "./ChangeNameForm";
 import Message from "../ui/Message";
 import { ICustomError } from "../interfaces/ICustomError";
+import useDeviceMutation from "@/src/hooks/queries/device/useDeviceMutation";
 
 interface ChangeNameProps {
   children: React.ReactNode;
