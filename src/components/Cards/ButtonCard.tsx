@@ -1,16 +1,22 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import DeviceEventDisplay from "../DeviceEventDisplay";
+import { StyleSheet } from "react-native";
 import { IButton } from "@/src/interfaces/IButton";
 import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 import StyledLink from "@/src/ui/StyledLink";
-import color from "@/src/styles/color";
+import CardIconContainer from "@/src/ui/containers/CardIconContainer";
+import EventButton from "@/src/ui/buttons/EventButton";
 
 interface ButtonCardProps {
   button: IButton;
 }
 
 export default function ButtonCard({ button }: ButtonCardProps) {
+  function handleHold() {
+    console.log("hold");
+  }
+  function handleClick() {
+    console.log("click");
+  }
   return (
     <DeviceCardContainer
       isFavourite={button.is_favourite}
@@ -19,23 +25,11 @@ export default function ButtonCard({ button }: ButtonCardProps) {
       isOnline={button.is_online}
       id={button.id}
     >
-      <View style={styles.eventsContainer}>
-        {button.events?.slice(0, 3).map((event) => (
-          <DeviceEventDisplay
-            key={event.id}
-            action={event.action}
-            device={event.device}
-            event={event.event}
-          />
-        ))}
-        {button.events && button.events.length > 3 && (
-          <Text style={{ color: color.text.secondary }}>...</Text>
-        )}
-        {(!button.events || button.events.length === 0) && (
-          <Text style={{ color: color.text.secondary }}>Brak zdarzeń</Text>
-        )}
-      </View>
-      <StyledLink type="button" to={`/Button/${button.id}/`}>
+      <CardIconContainer extraStyles={styles.buttonContainer}>
+        <EventButton onPress={handleHold} type="hold">HOLD</EventButton>
+        <EventButton onPress={handleClick} type="click">CLICK</EventButton>
+      </CardIconContainer>
+      <StyledLink type="fancy" to={`/Button/${button.id}/`}>
         Wybierz
       </StyledLink>
     </DeviceCardContainer>
@@ -43,21 +37,9 @@ export default function ButtonCard({ button }: ButtonCardProps) {
 }
 
 const styles = StyleSheet.create({
-  eventsContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  linkButton: {
-    marginTop: 15,
-    padding: 10,
-    backgroundColor: "#00c8ff",
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  linkText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
+  buttonContainer:{
+    flexDirection: "row",
+    flexWrap:"nowrap",
+    height:"75%"
+  }
 });

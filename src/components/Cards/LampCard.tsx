@@ -5,6 +5,9 @@ import { ILamp } from "@/src/interfaces/ILamp";
 import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 import StyledLink from "@/src/ui/StyledLink";
 import color from "@/src/styles/color";
+import CardIconContainer from "@/src/ui/containers/CardIconContainer";
+import InfoCard from "@/src/ui/InfoCard";
+import TimeRange from "@/src/ui/TimeRange";
 
 function formatDate(date: string): string {
   return date.slice(0, 5);
@@ -25,19 +28,14 @@ export default function LampCard({ lamp }: LampCardProps) {
       isOnline={lamp.is_online}
       id={lamp.id}
     >
-      <Text style={styles.infoText}>
-        Jasność: <Text style={styles.bold}>{lamp.brightness}%</Text>
-      </Text>
-      <Text style={styles.infoText}>
-        Czas świecenia: <Text style={styles.bold}>{lamp.lighting_time}s</Text>
-      </Text>
-      <View style={styles.timeContainer}>
-        <Text style={styles.infoText}>Czas świecenia:</Text>
-        <Text style={styles.bold}>
-          {formatDate(lamp.light_start)} - {formatDate(lamp.light_stop)}
-        </Text>
-      </View>
-      <StyledLink type="button" to={`/Lamp/${lamp.id}`}>
+      <CardIconContainer>
+        <InfoCard style={styles.card} icon="💡" >{lamp.brightness}%</InfoCard>
+        <InfoCard style={styles.card} icon="⏱️" >{lamp.lighting_time} s</InfoCard>
+        <InfoCard icon="📅"  style={styles.scheduleCard}>
+          <TimeRange start={lamp.light_start} end={lamp.light_stop} />
+        </InfoCard>
+      </CardIconContainer>
+      <StyledLink type="fancy" to={`/Lamp/${lamp.id}`}>
         Wybierz
       </StyledLink>
     </DeviceCardContainer>
@@ -45,30 +43,14 @@ export default function LampCard({ lamp }: LampCardProps) {
 }
 
 const styles = StyleSheet.create({
-  infoText: {
-    fontSize: 14,
-    color: color.text.primary,
+  card:{
+    flex:1,
   },
-  bold: {
-    fontWeight: "bold",
-    color: color.text.primary,
-  },
-  timeContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
-  },
-  button: {
-    backgroundColor: "#00bfff",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginTop: 15,
-  },
-  buttonText: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "center",
-  },
+  scheduleCard:{
+    width:"100%",
+    flexDirection:"row",
+    flexWrap:"nowrap",
+    justifyContent:"center",
+    alignItems:"center",
+  }
 });

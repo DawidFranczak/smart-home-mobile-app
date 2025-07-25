@@ -1,9 +1,9 @@
 import {useMutation, useQueryClient} from "@tanstack/react-query";
-import useFetch from "../../useFetch.tsx";
-import {api} from "../../../constant/api.ts";
-import updateRoomData from "../../../utils/updateRoomData.tsx";
-import CacheKey from "../../../constant/cacheKey.ts";
-import {IRoom} from "../../../interfaces/IRoom.tsx";
+import useFetch from "@/src/hooks/useFetch";
+import {api} from "@/src/const/api";
+import updateRoomData from "@/src/utils/updateRoomData";
+import CacheKey from "@/src/const/cacheKey";
+import {IRoom} from "@/src/interfaces/IRoom";
 
 interface IRoomUpdate{
     name?: string;
@@ -16,7 +16,6 @@ export default function useRoomMutation(){
         return useMutation({
             mutationFn:(data:IRoomUpdate) => updateData(`${api.room}${id}/`, data),
             onSuccess: (response) => {
-                console.log(response)
                 updateRoomData(queryClient, response);
             }
         })

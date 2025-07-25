@@ -1,6 +1,6 @@
-import useFetch from "../useFetch.tsx";
 import {useQuery} from "@tanstack/react-query";
-import {api} from "../../constant/api.ts";
+import useFetch from "@/src/hooks/useFetch";
+import {api} from "@/src/const/api";
 interface IHomeCodeResponse {
     data: {code: string,status: number}
 }

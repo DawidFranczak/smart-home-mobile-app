@@ -1,5 +1,6 @@
 import { StyleSheet, View, ViewStyle } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
+import variables from "@/src/styles/variables";
 interface SelectProps {
   items: { label: string; value: string }[];
   placeholder: string;
@@ -26,6 +27,10 @@ export default function Select({
             color: "#fff",
             backgroundColor: "#1a2a44dd",
             textAlign: "center",
+            borderColor: variables.colors.borderAccent,
+            borderWidth:2,
+            borderRadius: variables.borderRadius.lg,
+            borderStyle:"solid"
           },
         }}
         useNativeAndroidPickerStyle={false}

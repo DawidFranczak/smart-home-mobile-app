@@ -1,10 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import InputTime from "../ui/InputTime";
-import textWithLights from "../styles/textWithLights";
-import textBackground from "../styles/textBackground";
+import InputTime from "../ui/inputs/InputTime";
+import {IAquariumAction} from "@/src/interfaces/IAquariumAction";
+import variables from "@/src/styles/variables";
+import TilesContainer from "@/src/ui/containers/TilesContainer";
+import Tile from "@/src/ui/Tile";
 interface IAquariumAutomatProps {
-  dispatch: ({ type, payload }: { type: string; payload: string }) => void;
+  dispatch: ({ type, payload }: IAquariumAction) => void;
   state: {
     led_start: string;
     led_stop: string;
@@ -18,63 +20,40 @@ export default function AquariumAutomat({
   state,
 }: IAquariumAutomatProps) {
   return (
-    <View style={styles.container}>
-      <View style={styles.section}>
-        <Text style={[textBackground.background, textWithLights]}>
-          Czas ledów
-        </Text>
-        <View style={styles.sectionContainer}>
-          <View style={styles.sectionInput}>
-            <Text
-              style={[
-                textBackground.background,
-                textWithLights,
-                styles.textBackground,
-              ]}
-            >
-              Rozpoczęcie
-            </Text>
-            <InputTime
-              initialTime={state.led_start}
-              onChange={(data) =>
-                dispatch({ type: "set/ledStart", payload: data })
-              }
-            />
+      <TilesContainer>
+        <Tile extraStyles={styles.tile}>
+          <Text style={styles.tailText}>
+            Czas ledów
+          </Text>
+          <View style={styles.sectionContainer}>
+            <View style={styles.sectionInput}>
+              <InputTime
+                label="Rozpoczecie"
+                initialTime={state.led_start}
+                onChange={(data) =>
+                  dispatch({ type: "set/ledStart", payload: data })
+                }
+              />
+            </View>
+            <View style={styles.sectionInput}>
+              <InputTime
+                label="Zakończenie"
+                initialTime={state.led_stop}
+                onChange={(data) =>
+                  dispatch({ type: "set/ledStop", payload: data })
+                }
+              />
+            </View>
           </View>
+        </Tile>
+        <Tile extraStyles={styles.tile}>
+          <Text style={styles.tailText}>
+            Czas świetlówki
+          </Text>
+          <View style={styles.sectionContainer}>
           <View style={styles.sectionInput}>
-            <Text
-              style={[
-                textBackground.background,
-                textWithLights,
-                styles.textBackground,
-              ]}
-            >
-              Zakończenie
-            </Text>
             <InputTime
-              initialTime={state.led_stop}
-              onChange={(data) =>
-                dispatch({ type: "set/ledStop", payload: data })
-              }
-            />
-          </View>
-        </View>
-
-        <Text style={[textBackground.background, textWithLights]}>
-          Czas świetlówki
-        </Text>
-        <View style={styles.sectionContainer}>
-          <View style={styles.sectionInput}>
-            <Text
-              style={[
-                textBackground.background,
-                textWithLights,
-                styles.textBackground,
-              ]}
-            >
-              Rozpoczęcie
-            </Text>
-            <InputTime
+              label="Rozpoczecie"
               initialTime={state.fluo_start}
               onChange={(data) =>
                 dispatch({ type: "set/fluoStart", payload: data })
@@ -82,17 +61,8 @@ export default function AquariumAutomat({
             />
           </View>
           <View style={styles.sectionInput}>
-            <Text
-              style={[
-                textBackground.background,
-                textWithLights,
-                styles.textBackground,
-                ,
-              ]}
-            >
-              Zakończenie
-            </Text>
             <InputTime
+              label="Zakończenie"
               initialTime={state.fluo_stop}
               onChange={(data) =>
                 dispatch({ type: "set/fluoStop", payload: data })
@@ -100,21 +70,12 @@ export default function AquariumAutomat({
             />
           </View>
         </View>
-      </View>
-    </View>
+        </Tile>
+      </TilesContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width: "100%",
-    marginTop: 20,
-  },
-  section: {
-    alignItems: "center",
-    justifyContent: "space-around",
-  },
   sectionInput: {
     flex: 1 / 2,
     alignItems: "center",
@@ -122,8 +83,15 @@ const styles = StyleSheet.create({
   sectionContainer: {
     flexDirection: "row",
     marginVertical: 10,
+    gap:variables.spacing.xsm
   },
-  textBackground: {
-    width: "90%",
+  tile:{
+    paddingVertical: variables.spacing.xsm,
   },
+  tailText:{
+    color: variables.colors.accentPrimary,
+    fontSize: variables.typography.fontSize.base,
+    fontWeight: 500,
+    fontFamily: variables.typography.fontFamily,
+  }
 });

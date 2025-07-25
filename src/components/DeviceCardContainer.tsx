@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Animated, Pressable } from "react-native";
 import FavouriteStar from "./FavouriteStar";
-import Header from "../ui/Header";
+import Header from "../ui/headers/Header";
 import WifiStrength from "../ui/WiFiStrength";
 import cardBackgroung from "../styles/cardBackgroung";
 
@@ -26,18 +26,15 @@ export default function DeviceCardContainer({
   return (
     <View style={cardBackgroung.container}>
       <Header>{name}</Header>
-
-      <View style={styles.wifi}>
-        <WifiStrength strength={isOnline ? wifiStrength : -100} />
-      </View>
-
       <View style={styles.starContainer}>
         <Pressable onPress={() => (isFavouriteState = !isFavouriteState)}>
           <FavouriteStar isFavourite={isFavouriteState} id={id} type="device" />
         </Pressable>
       </View>
-
-      {children}
+      <View style={styles.wifi}>
+        <WifiStrength size="medium" strength={isOnline ? wifiStrength : -100} />
+      </View>
+      <View style={styles.content}>{children}</View>
     </View>
   );
 }
@@ -52,4 +49,10 @@ const styles = StyleSheet.create({
     top: 10,
     left: 10,
   },
+  content: {
+    width: "100%",
+    flex: 1,
+    justifyContent:"space-between",
+    alignItems: "center",
+  }
 });

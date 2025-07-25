@@ -16,8 +16,10 @@ import {
   View,
 } from "react-native";
 import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
-
-const { width } = Dimensions.get("window");
+import PageContainer from "@/src/ui/containers/PageContainer";
+import PageHeader from "@/src/ui/headers/PageHeader";
+import TilesContainer from "@/src/ui/containers/TilesContainer";
+import Tile from "@/src/ui/Tile";
 
 export default function RfidCard() {
   const [cards, setCards] = useState<ICard[]>([]);
@@ -40,41 +42,34 @@ export default function RfidCard() {
   }
   if (cards === undefined) return <ActivityIndicator size="large" />;
   return (
-    <View style={styles.container}>
-      <QueryInput onChange={handleFilterCards} />
-      {!cards.length && (
-        <Text style={[textBackground.background, textWithLights]}>
-          Brak kart
-        </Text>
-      )}
-      {cards.length > 0 && (
-        <FlatList
-          numColumns={2}
-          data={cards}
-          renderItem={({ item }) => (
-            <View style={styles.item}>{<CardCard card={item} />}</View>
-          )}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      )}
-      <StyledLink style={styles.button} to={`/Rfid/${rfidData.id}/CardAdd`}>
-        Dodaj Karte
-      </StyledLink>
-    </View>
+    <PageContainer>
+      <PageHeader title={device?.name} subtitle="Karty">
+      <View style={styles.buttonContainer}>
+        <QueryInput onChange={handleFilterCards}/>
+        <StyledLink type="fancy" to={`/Rfid/${rfidData.id}/CardAdd`}>
+          Dodaj
+        </StyledLink>
+      </View>
+      </PageHeader>
+      <TilesContainer>
+        {cards.length > 0 && (
+            <FlatList
+                numColumns={2}
+                data={cards}
+                renderItem={({ item }) => (
+                    <Tile>{<CardCard card={item} />}</Tile>
+                )}
+                keyExtractor={(item) => item.id.toString()}
+            />
+        )}
+      </TilesContainer>
+    </PageContainer>
   );
 }
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginBottom: 60,
-    justifyContent: "space-between",
-  },
-  item: {
-    width: width / 2 - 10,
-    margin: 5,
-  },
-  button: {
-    margin: 20,
-  },
+  buttonContainer:{
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+  }
 });

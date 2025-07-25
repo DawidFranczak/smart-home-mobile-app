@@ -1,13 +1,16 @@
 import DeviceEventDisplay from "@/src/components/DeviceEventDisplay";
-import { IEvent } from "@/src/interfaces/IEvent";
 import color from "@/src/styles/color";
-import textBackground from "@/src/styles/textBackground";
-import DeviceContainer from "@/src/ui/DeviceContainer";
 import StyledLink from "@/src/ui/StyledLink";
+import Tile from "@/src/ui/Tile";
 import { useLocalSearchParams } from "expo-router";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
 import {IButton} from "@/src/interfaces/IButton";
+import PageContainer from "@/src/ui/containers/PageContainer";
+import PageHeader from "@/src/ui/headers/PageHeader";
+import ButtonContainer from "@/src/ui/containers/ButtonContainer";
+import WifiStrength from "@/src/ui/WiFiStrength";
+import TilesContainer from "@/src/ui/containers/TilesContainer";
 
 export default function ButtonPage() {
   const params = useLocalSearchParams().id;
@@ -16,40 +19,55 @@ export default function ButtonPage() {
   const buttonData = device as IButton;
   if (!buttonData) return <ActivityIndicator size="large" />;
   return (
-    <DeviceContainer
-      name={buttonData.name}
-      wifiStrength={buttonData.wifi_strength}
-      isOnline={buttonData.is_online}
-      id={buttonData.id}
-    >
-      <View style={styles.container}>
-        <View style={[styles.eventContainer, textBackground.background]}>
-          {buttonData.events?.length === 0 && (
-            <Text style={styles.eventText}>Brak akcji</Text>
-          )}
-          {buttonData.events?.map((event: IEvent) => (
-            <DeviceEventDisplay
-              key={event.id}
-              action={event.action}
-              device={event.device}
-              event={event.event}
-              style={styles.eventText}
-            />
+      <PageContainer>
+        <PageHeader>
+          <ButtonContainer>
+            <StyledLink type="fancy" to={`/Wizard/Event/button/${buttonData.id}/Add`}>
+              Zdarzenia
+            </StyledLink>
+            <StyledLink type="fancy" to={`/Settings/button/${buttonData.id}/`}>
+              Ustawienia
+            </StyledLink>
+            <WifiStrength strength={buttonData.is_online?buttonData.wifi_strength:-100} size="large"/>
+          </ButtonContainer>
+        </PageHeader>
+        <TilesContainer>
+          {buttonData.events?.map((event) => (
+              <Tile key={event.id}>
+                <DeviceEventDisplay
+                    key={event.id}
+                    event={event}
+                />
+              </Tile>
           ))}
-        </View>
-        <View style={styles.buttonContainer}>
-          <StyledLink
-            type="button"
-            to={`/Wizzard/Event/${buttonData.fun}/${buttonData.id}/`}
-          >
-            Ustawienia zdarzenia
-          </StyledLink>
-        </View>
-      </View>
-    </DeviceContainer>
+        </TilesContainer>
+      </PageContainer>
   );
 }
-
+// <View style={styles.container}>
+//   <View style={[styles.eventContainer, textBackground.background]}>
+//     {buttonData.events?.length === 0 && (
+//         <Text style={styles.eventText}>Brak akcji</Text>
+//     )}
+//     {buttonData.events?.map((event: IEvent) => (
+//         <DeviceEventDisplay
+//             key={event.id}
+//             action={event.action}
+//             device={event.device}
+//             event={event.event}
+//             style={styles.eventText}
+//         />
+//     ))}
+//   </View>
+//   <View style={styles.buttonContainer}>
+//     <StyledLink
+//         type="button"
+//         to={`/Wizard/Event/${buttonData.fun}/${buttonData.id}/`}
+//     >
+//       Ustawienia zdarzenia
+//     </StyledLink>
+//   </View>
+// </View>
 const styles = StyleSheet.create({
   container: {
     flex: 1,

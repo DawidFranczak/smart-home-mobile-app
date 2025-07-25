@@ -12,6 +12,9 @@ export default interface INavbarLink {
     | "/More"
     | "/More/ChangePassword"
     | "/More/Camera"
+    | "/More/HomeCode"
+    | "/More/HomeLeave"
+    | "/More/HomeChange"
     | "/Logout";
   image?: any;
   textStyle?: TextStyle;

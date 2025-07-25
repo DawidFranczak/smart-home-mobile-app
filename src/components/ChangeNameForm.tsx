@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import ButtonContainer from "../ui/ButtonContainer";
-import Button from "../ui/Button";
-import InputText from "../ui/InputText";
+import ButtonContainer from "../ui/containers/ButtonContainer";
+import Button from "../ui/buttons/Button";
+import InputText from "../ui/inputs/InputText";
 import color from "../styles/color";
 
 interface ChangeNameFormProps {
@@ -42,7 +42,7 @@ export default function ChangeNameForm({
         <InputText
           ref={inputRef}
           inputStyle={styles.input}
-          placeholder="Podaj nowe nazwe"
+          placeholder="Podaj nową nazwe"
           value={name}
           onChange={setName}
           autoFocus={true}

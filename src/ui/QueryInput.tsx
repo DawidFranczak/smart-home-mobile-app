@@ -7,7 +7,6 @@ import {
   StyleSheet,
   ViewStyle,
   Animated,
-  Dimensions, LayoutChangeEvent,
 } from "react-native";
 
 interface IQueryInputProps {
@@ -18,7 +17,6 @@ interface IQueryInputProps {
 export default function QueryInput ({ onChange, extraStyle }: IQueryInputProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const inputRef = useRef<TextInput>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
   const animatedWidth = useRef(new Animated.Value(40)).current;
 
   function handleIconClick() {
@@ -28,7 +26,7 @@ export default function QueryInput ({ onChange, extraStyle }: IQueryInputProps) 
       inputRef.current?.blur();
     }
     Animated.timing(animatedWidth, {
-      toValue: isExpanded ? 40 : containerWidth,
+      toValue: isExpanded ? 40 : 150,
       duration: 1000,
       useNativeDriver: false,
     }).start();
@@ -36,15 +34,10 @@ export default function QueryInput ({ onChange, extraStyle }: IQueryInputProps) 
     setIsExpanded((prev) => !prev);
   }
 
-  const onLayout = (e: LayoutChangeEvent) => {
-    const { width } = e.nativeEvent.layout;
-    setContainerWidth(width);
-    console.log(width);
-  };
   return (
-      <View style={{ width: '100%' }} onLayout={onLayout}>
+      <View style={[{ width: 150 },extraStyle]}>
         <Animated.View
-          style={[styles.container, extraStyle, { width: animatedWidth }]}
+          style={[styles.container, { width: animatedWidth }]}
         >
           <TouchableOpacity onPress={handleIconClick}>
             <Image

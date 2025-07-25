@@ -4,8 +4,11 @@ import { FlatList, StyleSheet, View } from "react-native";
 export default function More() {
   const data: INavbarLink[] = [
     { text: "Wyloguj", url: "/Logout" },
-    { text: "Zmiana hasła", url: "/More/ChangePassword" },
     { text: "Kamery", url: "/More/Camera" },
+    { text: "Zmiana hasła", url: "/More/ChangePassword" },
+    { text: "Zmiana domu", url: "/More/HomeChange" },
+    { text: "Kod domu", url: "/More/HomeCode" },
+    { text: "Wyjdź z domu", url: "/More/HomeLeave" },
   ];
 
   return (
@@ -25,8 +28,9 @@ const styles = StyleSheet.create({
   card: {
     flex: 1 / 2,
     margin: 5,
-    aspectRatio: 2 / 1,
-    backgroundColor: "black",
+    aspectRatio: 2,
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderRadius: 15,
     alignContent: "center",
     justifyContent: "center",
   },

@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import { api } from "@/src/const/api";
-import Button from "@/src/ui/Button";
+import Button from "@/src/ui/buttons/Button";
 import Message from "@/src/ui/Message";
 import { useRouter } from "expo-router";
 

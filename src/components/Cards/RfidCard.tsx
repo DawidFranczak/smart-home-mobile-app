@@ -5,12 +5,20 @@ import StyledLink from "@/src/ui/StyledLink";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import DeviceEventDisplay from "../DeviceEventDisplay";
+import CardIconContainer from "@/src/ui/containers/CardIconContainer";
+import EventButton from "@/src/ui/buttons/EventButton";
 
 interface RfidCardProps {
   rfid: IRfid;
 }
 
 export default function RfidCard({ rfid }: RfidCardProps) {
+  function handleHold() {
+    console.log("hold");
+  }
+  function handleClick() {
+    console.log("click");
+  }
   return (
     <DeviceCardContainer
       isFavourite={rfid.is_favourite}
@@ -19,29 +27,11 @@ export default function RfidCard({ rfid }: RfidCardProps) {
       isOnline={rfid.is_online}
       id={rfid.id}
     >
-      <View style={styles.eventContainer}>
-        {rfid.events &&
-          rfid.events.map((event, inx) => {
-            if (inx < 2) {
-              return (
-                <DeviceEventDisplay
-                  key={event.id}
-                  action={event.action}
-                  device={event.device}
-                  event={event.event}
-                />
-              );
-            }
-          })}
-        {rfid.events && rfid.events.length > 3 && (
-          <Text style={{ color: color.text.secondary }}>...</Text>
-        )}
-        {(!rfid.events || rfid.events.length === 0) && (
-          <Text style={{ color: color.text.secondary }}>Brak zdarzeń</Text>
-        )}
-      </View>
-      <Text style={styles.tekst}>Ilość kart: {rfid.cards.length}</Text>
-      <StyledLink type="button" to={`/Rfid/${rfid.id}/`}>
+      <CardIconContainer extraStyles={styles.buttonContainer}>
+        <EventButton onPress={handleHold} type="hold">HOLD</EventButton>
+        <EventButton onPress={handleClick} type="click">CLICK</EventButton>
+      </CardIconContainer>
+      <StyledLink type="fancy" to={`/Rfid/${rfid.id}/`}>
         Wybierz
       </StyledLink>
     </DeviceCardContainer>
@@ -49,24 +39,9 @@ export default function RfidCard({ rfid }: RfidCardProps) {
 }
 
 const styles = StyleSheet.create({
-  eventContainer: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  button: {
-    backgroundColor: "#00bfff",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    marginTop: 15,
-  },
-  buttonText: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "center",
-  },
-  tekst: {
-    color: color.text.primary,
-  },
+  buttonContainer:{
+    flexDirection: "row",
+    flexWrap:"nowrap",
+    height:"75%"
+  }
 });
