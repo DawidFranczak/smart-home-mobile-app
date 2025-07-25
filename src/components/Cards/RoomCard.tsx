@@ -3,10 +3,13 @@ import { View, Text, StyleSheet } from "react-native";
 import { IRoom } from "@/src/interfaces/IRoom";
 import FavouriteStar from "../FavouriteStar";
 import RoomVisibility from "../RoomVisibility";
-import Header from "../../ui/Header";
+import Header from "../../ui/headers/Header";
 import StyledLink from "@/src/ui/StyledLink";
 import color from "@/src/styles/color";
 import cardBackgroung from "@/src/styles/cardBackgroung";
+import CardIconContainer from "@/src/ui/containers/CardIconContainer";
+import InfoCard from "@/src/ui/InfoCard";
+import variables from "@/src/styles/variables";
 interface RoomCardProps {
   room: IRoom;
 }
@@ -26,31 +29,41 @@ export default function RoomCard({ room }: RoomCardProps) {
       />
       <RoomVisibility style={styles.lock} visibility={room.visibility} />
       <Header>{room.name}</Header>
-      <Text style={styles.tekst}>
-        Aktywne urządzenia: {room.active_device_count}
-      </Text>
-      <Text style={styles.tekst}>
-        Wszystkie urządzenia: {room.device_count}
-      </Text>
-      <StyledLink type="button" to={`/Room/${room.id}`}>
+        <CardIconContainer>
+            <InfoCard style={styles.item}>
+                <Text >Aktywne : {room.active_device_count}</Text>
+            </InfoCard>
+            <InfoCard style={styles.item}>
+                <Text>Wszystkie : {room.device_count}</Text>
+            </InfoCard>
+        </CardIconContainer>
+        <StyledLink type="fancy" to={`/Room/${room.id}`}>
         Wybierz
-      </StyledLink>
+        </StyledLink>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  favouriteStar: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-  },
-  lock: {
-    position: "absolute",
-    top: 10,
-    left: 10,
-  },
-  tekst: {
-    color: color.text.primary,
-  },
+    favouriteStar: {
+        position: "absolute",
+        top: 10,
+        right: 10,
+        zIndex: 2
+    },
+    item: {
+        width: '100%',
+        height: 40,
+        margin: 4,
+        backgroundColor: variables.colors.glassBg,
+    },
+    lock: {
+        position: "absolute",
+        top: 10,
+        left: 10,
+        zIndex: 2
+    },
+    tekst: {
+        color: color.text.primary,
+    },
 });

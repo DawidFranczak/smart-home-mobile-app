@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import useRouterMutation from "../hooks/queries/useRouterMutation";
 import CustomError from "../utils/CustomError";
-import DeviceContainer from "../ui/DeviceContainer";
-import InputText from "../ui/InputText";
+import DeviceContainer from "../ui/containers/DeviceContainer";
+import InputText from "../ui/inputs/InputText";
 import Message from "../ui/Message";
-import Button from "../ui/Button";
+import Button from "../ui/buttons/Button";
 import { StyleSheet, View } from "react-native";
 export default function AddRouter() {
   const [mac, setMac] = useState("");

@@ -1,18 +1,16 @@
 import {useEffect, useMemo, useState} from "react";
-import { IRoom } from "../../src/interfaces/IRoom";
-import { IDevice } from "../../src/interfaces/IDevice";
-import { StyleSheet, Text, View, Dimensions, ScrollView } from "react-native";
+import { StyleSheet, View, Dimensions, ScrollView } from "react-native";
+import { IRoom } from "@/src/interfaces/IRoom";
+import { IDevice } from "@/src/interfaces/IDevice";
 import useFavouriteQuery from "@/src/hooks/queries/useFavouriteQuery";
 import QueryInput from "@/src/ui/QueryInput";
 import RoomCard from "@/src/components/Cards/RoomCard";
 import getDeviceComponent from "@/src/utils/getDeviceCard";
-import cardBackgroung from "@/src/styles/cardBackgroung";
-import textWithLights from "@/src/styles/textWithLights";
 import Loading from "@/src/components/Loading";
 import useDevicesQuery from "@/src/hooks/queries/device/useDevicesQuery";
 import useRoomsQuery from "@/src/hooks/queries/room/useRoomsQuery";
-import PageContainer from "@/src/ui/PageContainer";
-import PageHeader from "@/src/ui/PageHeader";
+import PageContainer from "@/src/ui/containers/PageContainer";
+import PageHeader from "@/src/ui/headers/PageHeader";
 
 const screenWidth = Dimensions.get("window").width;
 

@@ -1,5 +1,5 @@
 import { useAuth } from "@/src/context/AuthContext";
-import ButtonContainer from "@/src/ui/ButtonContainer";
+import ButtonContainer from "@/src/ui/containers/ButtonContainer";
 import StyledLink from "@/src/ui/StyledLink";
 import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";

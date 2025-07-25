@@ -5,6 +5,8 @@ import getDeviceComponent from "@/src/utils/getDeviceCard";
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import usePrefetchDeviceQuery from "@/src/hooks/queries/device/usePrefetchDeviceQuery";
+import PageContainer from "@/src/ui/containers/PageContainer";
+import PageHeader from "@/src/ui/headers/PageHeader";
 
 export default function Device() {
   const { deviceData } = usePrefetchDeviceQuery();
@@ -25,8 +27,10 @@ export default function Device() {
 
   if (!query) return <Loading />;
   return (
-    <View style={styles.container}>
-      <QueryInput onChange={handleDeviceQuery} />
+    <PageContainer>
+      <PageHeader title="Urządzenia" subtitle="Zarządzaj urządzeniami" >
+        <QueryInput onChange={handleDeviceQuery} />
+      </PageHeader>
       <FlatList
         numColumns={2}
         data={query}
@@ -35,15 +39,11 @@ export default function Device() {
         )}
         keyExtractor={(item) => item.id.toString()}
       />
-    </View>
+    </PageContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginBottom: 60,
-  },
   item: {
     flex: 1 / 2,
   },

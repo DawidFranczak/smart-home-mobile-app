@@ -2,7 +2,7 @@ import AddRouter from "@/src/components/AddRouter";
 import useRouterQuery from "@/src/hooks/queries/useRouterQuery";
 import color from "@/src/styles/color";
 import textBackground from "@/src/styles/textBackground";
-import DeviceContainer from "@/src/ui/DeviceContainer";
+import DeviceContainer from "@/src/ui/containers/DeviceContainer";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function RouterPage() {

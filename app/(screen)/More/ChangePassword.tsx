@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import useChangePasswordMutation from "@/src/hooks/queries/useChangePasswordMutation";
 import { ICustomError } from "@/src/interfaces/ICustomError";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
-import Button from "@/src/ui/Button";
-import Header from "@/src/ui/Header";
-import InputText from "@/src/ui/InputText";
+import Button from "@/src/ui/buttons/Button";
+import Header from "@/src/ui/headers/Header";
+import InputText from "@/src/ui/inputs/InputText";
 import Message from "@/src/ui/Message";
 import StyledLink from "@/src/ui/StyledLink";
-import ButtonContainer from "@/src/ui/ButtonContainer";
+import ButtonContainer from "@/src/ui/containers/ButtonContainer";
+import PageContainer from "@/src/ui/containers/PageContainer";
+import FormContainer from "@/src/ui/containers/FormContainer";
+import variables from "@/src/styles/variables";
 interface IError {
   empty?: string;
   current_password?: string;
@@ -44,38 +47,36 @@ export default function ChangePasswordForm() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View style={styles.form}>
-        <Header style={styles.header}>Zmiana hasła</Header>
-        <InputText
-          secureTextEntry={true}
-          placeholder="Obecne hasło"
-          onChange={setCurrentPassword}
-        />
-        {error.current_password && (
-          <Message type="error">{error.current_password}</Message>
-        )}
-        <InputText
-          secureTextEntry={true}
-          placeholder="Nowe hasło"
-          onChange={setNewPassword}
-        />
-        <InputText
-          secureTextEntry={true}
-          placeholder="Powtórz nowe hasło"
-          onChange={setNewPassword2}
-        />
-        {error.empty && <Message type="error">{error.empty}</Message>}
-        {error.new_password2 && (
-          <Message type="error">{error.new_password2}</Message>
-        )}
-        {mutation.isSuccess && (
-          <Message type="success">Hasło zostało zmienione</Message>
-        )}
-        <ButtonContainer style={styles.containerButton}>
-          <Button onPress={handleSubmit}>Zapisz</Button>
-          <StyledLink to="/">Powrót</StyledLink>
-        </ButtonContainer>
-      </View>
+      <PageContainer>
+        <View style={styles.form}>
+          <FormContainer>
+            <Header type="large">Zmiana hasła</Header>
+            <InputText
+              secureTextEntry={true}
+              placeholder="Obecne hasło"
+              onChange={setCurrentPassword}
+            />
+            <Message visible={!!error.current_password} type="error">{error.current_password}</Message>
+            <InputText
+              secureTextEntry={true}
+              placeholder="Nowe hasło"
+              onChange={setNewPassword}
+            />
+            <InputText
+              secureTextEntry={true}
+              placeholder="Powtórz nowe hasło"
+              onChange={setNewPassword2}
+            />
+            <Message visible={!!error.empty} type="error">{error.empty}</Message>
+            <Message visible={!!error.new_password2} type="error">{error.new_password2}</Message>
+            <Message visible={mutation.isSuccess} type="success">Hasło zostało zmienione</Message>
+            <ButtonContainer style={styles.containerButton}>
+              <Button type="fancy" onPress={handleSubmit}>Zapisz</Button>
+              <StyledLink to="/">Powrót</StyledLink>
+            </ButtonContainer>
+          </FormContainer>
+        </View>
+      </PageContainer>
     </KeyboardAvoidingView>
   );
 }
@@ -83,12 +84,12 @@ export default function ChangePasswordForm() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#1a2a44",
   },
   form: {
     flex: 1,
+    alignItems: "center",
     justifyContent: "center",
+    padding:variables.spacing.md
   },
   header: {
     marginBottom: 20,
@@ -96,7 +97,7 @@ const styles = StyleSheet.create({
   },
   containerButton: {
     marginTop: 10,
-    flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "center",
+    gap:50,
   },
 });

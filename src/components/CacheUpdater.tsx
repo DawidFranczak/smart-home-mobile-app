@@ -1,12 +1,10 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import updateInstanceData from "../utils/updateInstanceData";
-import updateRoomDeviceData from "../utils/updateRoomDeviceData";
 import updateUnassignedDevice from "../utils/updateUnassignedDevice";
-import MessageType from "../const/message_type";
 import updateRouterData from "../utils/updateRouterData";
-import { websockerUrl } from "../const/urls";
-import updateFavouriteData from "../utils/updateFavouriteData";
+import {websocketUrl} from "@/src/const/urls";
+import MessageType from "@/src/const/message_type";
+import updateDeviceData from "@/src/utils/updateDeviceData";
 
 export default function CacheUpdater() {
   const [_, setSocket] = useState<WebSocket>();
@@ -17,9 +15,9 @@ export default function CacheUpdater() {
       token: string;
     };
     if (!token) return;
-    const ws = new WebSocket(`${websockerUrl}/ws/user/${token.token}/`);
+    const ws = new WebSocket(`${websocketUrl}/ws/user/${token.token}/`);
     ws.onopen = (event) => {
-      console.log("Połączono z serwerem WebSocket", event);
+      console.log("open",event);
     };
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
@@ -28,20 +26,14 @@ export default function CacheUpdater() {
           updateRouterData(queryClient, data.data);
           break;
         case MessageType.UPDATE_DEVICE:
-          updateInstanceData(queryClient, data.data);
-          updateRoomDeviceData(queryClient, data.data);
-          updateFavouriteData(
-            queryClient,
-            { status: data.data.status, data: data.data.data },
-            "device"
-          );
+          updateDeviceData(queryClient, data.data);
           break;
         case MessageType.NEW_DEVICE_CONNECTED:
           updateUnassignedDevice(queryClient, data.data);
       }
     };
 
-    ws.onerror = (error) => {
+    ws.onerror = () => {
       //   console.error("Błąd WebSocket:", error);
     };
 
@@ -52,6 +44,5 @@ export default function CacheUpdater() {
 
     return () => ws.close();
   }, []);
-
   return null;
 }

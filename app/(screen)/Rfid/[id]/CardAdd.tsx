@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import useCardMutation from "@/src/hooks/queries/useCardMutation";
-import Header from "@/src/ui/Header";
+import Header from "@/src/ui/headers/Header";
 import Message from "@/src/ui/Message";
-import ButtonContainer from "@/src/ui/ButtonContainer";
+import ButtonContainer from "@/src/ui/containers/ButtonContainer";
 import StyledLink from "@/src/ui/StyledLink";
-import Button from "@/src/ui/Button";
-import InputText from "@/src/ui/InputText";
+import Button from "@/src/ui/buttons/Button";
+import InputText from "@/src/ui/inputs/InputText";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   KeyboardAvoidingView,
@@ -16,15 +16,17 @@ import {
   View,
   ActivityIndicator
 } from "react-native";
-import textBackground from "@/src/styles/textBackground";
 import CustomError from "@/src/utils/CustomError";
 import color from "@/src/styles/color";
 import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
 import {IRfid} from "@/src/interfaces/IRfid";
+import variables from "@/src/styles/variables";
+import FormContainer from "@/src/ui/containers/FormContainer";
 
 export default function AddCard() {
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const router = useRouter();
   const { mutationCreate } = useCardMutation();
   const rfidID = Number(useLocalSearchParams().id);
   const { device, status } = useDeviceQuery(rfidID);
@@ -58,24 +60,27 @@ export default function AddCard() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View style={[textBackground.background, styles.form]}>
-        <Header>Dodaj karte</Header>
+      <FormContainer>
+        <Header type="large">Dodaj kartę</Header>
+        <View style={styles.instructionView}>
+          <Text style={styles.instructionText}>Wprowadź nazwę karty i zbliż ją do czytnika RFID</Text>
+        </View>
         <InputText placeholder="Nazwa karty" onChange={setName} />
         {error && <Message type="error">{error}</Message>}
         {status === 201 && (
           <Message type="success">Karta została dodana</Message>
         )}
         <ButtonContainer>
-          <Button onPress={handleSubmit}>Dodaj</Button>
-          <StyledLink to="/">Zamknij</StyledLink>
+          <StyledLink  to="/">Wróć</StyledLink>
+          <Button type="fancy"  onPress={handleSubmit}>Dodaj</Button>
         </ButtonContainer>
-      </View>
+      </FormContainer>
       <Modal
         visible={rfidData.pending.includes("add_tag")}
         animationType="fade"
         backdropColor={"rgba(0, 0, 0, 0.8)"}
         onRequestClose={() => {
-          useRouter().back();
+          router.back();
         }}
       >
         <View style={styles.modalContainer}>
@@ -93,6 +98,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
+  },
+  instructionView: {
+    fontSize: variables.typography.fontSize.lg,
+    lineHeight: 1.5,
+    marginBottom:variables.spacing.md,
+    padding: variables.spacing.md,
+    backgroundColor:variables.colors.tertiaryBg,
+    borderRadius:variables.spacing.sm,
+    borderRightColor:"rgba(0, 0, 0, 0.0)",
+    borderTopColor:"rgba(0, 0, 0, 0.0)",
+    borderBottomColor:"rgba(0, 0, 0, 0.0)",
+    borderLeftColor:variables.colors.accentPrimary,
+    borderStyle:"solid",
+    borderWidth:3,
+  },
+  instructionText:{
+    color: variables.colors.textMuted,
   },
   form: {
     padding: 20,

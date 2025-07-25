@@ -8,7 +8,7 @@ import {
   Modal,
 } from "react-native";
 import color from "../styles/color";
-import ButtonContainer from "../ui/ButtonContainer";
+import ButtonContainer from "../ui/containers/ButtonContainer";
 
 interface ConfirmDeleteProps {
   onConfirm: () => void;
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
+    justifyContent: "center",
     gap: 50,
   },
   button: {

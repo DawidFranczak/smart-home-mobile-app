@@ -1,11 +1,11 @@
 import React, { useEffect, useReducer } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {View, Text, StyleSheet, ActivityIndicator, ToastAndroid} from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { IAquarium } from "@/src/interfaces/IAquarium";
 import useAquariumMutation from "@/src/hooks/queries/useAquariumMutation";
 import Message from "@/src/ui/Message";
-import Button from "@/src/ui/Button";
-import DeviceContainer from "@/src/ui/DeviceContainer";
+import Button from "@/src/ui/buttons/Button";
+import DeviceContainer from "@/src/ui/containers/DeviceContainer";
 import AquariumAutomat from "@/src/components/AquariumAutomat";
 import { Panel3 } from "reanimated-color-picker";
 import ColorPicker from "reanimated-color-picker";
@@ -14,22 +14,15 @@ import rgbToHex from "@/src/utils/rgbToHex";
 import textBackground from "@/src/styles/textBackground";
 import textWithLights from "@/src/styles/textWithLights";
 import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
-
-type IAction =
-  | {
-      type: "set/init_value";
-      payload: IAquarium;
-    }
-  | {
-      type: "set/color";
-      payload: string; // Hex color value
-    }
-  | { type: "set/ledStart"; payload: string }
-  | { type: "set/ledStop"; payload: string }
-  | { type: "set/fluoStart"; payload: string }
-  | { type: "set/fluoStop"; payload: string };
-
-function reducer(state: IAquarium, action: IAction) {
+import PageContainer from "@/src/ui/containers/PageContainer";
+import PageHeader from "@/src/ui/headers/PageHeader";
+import WifiStrength from "@/src/ui/WiFiStrength";
+import {IAquariumAction} from "@/src/interfaces/IAquariumAction";
+import variables from "@/src/styles/variables";
+import StyledLink from "@/src/ui/StyledLink";
+import TilesContainer from "@/src/ui/containers/TilesContainer";
+import Tile from "@/src/ui/Tile";
+function reducer(state: IAquarium, action: IAquariumAction) {
   switch (action.type) {
     case "set/init_value":
       return { ...state, ...action.payload };
@@ -76,6 +69,7 @@ export default function AquariumPage() {
   const aquariumData = device as IAquarium;
 
   const [state, dispatch] = useReducer(reducer, {} as IAquarium);
+  console.log(state);
   useEffect(() => {
     if (aquariumData) {
       dispatch({
@@ -95,108 +89,133 @@ export default function AquariumPage() {
     }
     mutation.mutate(state);
   };
-  if (Object.keys(state).length === 0) return null;
+  if (Object.keys(state).length === 0) return <ActivityIndicator size="large" />;
   return (
-    <DeviceContainer
-      name={state.name}
-      isOnline={state.is_online}
-      wifiStrength={state.wifi_strength}
-      id={id}
-    >
-      <View style={styles.container}>
+      <PageContainer>
+        <PageHeader title="Akwarium" subtitle={state.name}>
+          <View style={styles.header}>
+            <StyledLink type="fancy" to={`/Settings/aquarium/${state.id}/`}>
+              Ustawienia
+            </StyledLink>
+            <WifiStrength strength={state.is_online? state.wifi_strength: -100} size="large"/>
+          </View>
+        </PageHeader>
+          <View style={styles.colorPickerContainer}>
+            <ColorPicker
+                style={styles.colorPicker}
+                value={rgbToHex(state.color_r, state.color_g, state.color_b)}
+                onCompleteJS={(color) => {
+                  dispatch({
+                    type: "set/color",
+                    payload: color.hex,
+                  });
+                }}
+            >
+              <Panel3 />
+            </ColorPicker>
+          </View>
+
+          {state.mode ? (
+            <AquariumAutomat
+              dispatch={dispatch}
+              state={{
+                led_start: state.led_start,
+                led_stop: state.led_stop,
+                fluo_start: state.fluo_start,
+                fluo_stop: state.fluo_stop,
+              }}
+            />
+          ) : (
+              <TilesContainer>
+                <Tile>
+                  <Text style={styles.text}>
+                      Ledy
+                  </Text>
+                  <Button style={styles.button} type={state.led_mode? "success": "danger"} onPress={() => handleSaveSettings("led_mode")}>
+                    {state.led_mode ? "Wyłącz" : "Włącz"}
+                  </Button>
+                </Tile>
+                <Tile>
+                  <Text style={styles.text}>
+                    Świetlówka
+                  </Text>
+                  <Button style={styles.button} type={state.fluo_mode? "success": "danger"} onPress={() => handleSaveSettings("fluo_mode")}>
+                    {state.fluo_mode ? "Wyłącz" : "Włącz"}
+                  </Button>
+                </Tile>
+              </TilesContainer>
+          )}
         {mutationErrors && (
-          <Message style={styles.message} type="error">
-            Błąd w komunikacji z akwarium.
-          </Message>
+            <Message
+                timeout={1000}
+                type="error">
+              Błąd w komunikacji z akwarium.
+            </Message>
         )}
         {mutationStatus === 200 && (
-          <Message style={styles.message} type="success">
-            Zapisano dane
-          </Message>
+            <Message
+                timeout={1000}
+                type="success">
+              Zapisano dane
+            </Message>
         )}
-        <ColorPicker
-          style={styles.colorPicker}
-          value={rgbToHex(state.color_r, state.color_g, state.color_b)}
-          onCompleteJS={(color) => {
-            dispatch({
-              type: "set/color",
-              payload: color.hex,
-            });
-          }}
-        >
-          <Panel3 />
-        </ColorPicker>
-        {state.mode ? (
-          <AquariumAutomat
-            dispatch={dispatch}
-            state={{
-              led_start: state.led_start,
-              led_stop: state.led_stop,
-              fluo_start: state.fluo_start,
-              fluo_stop: state.fluo_stop,
-            }}
-          />
-        ) : (
-          <View style={styles.aquariumManual}>
-            <Text style={[textBackground.background, textWithLights]}>
-              Ledy
-            </Text>
-            <Button onPress={() => handleSaveSettings("led_mode")}>
-              {state.led_mode ? "Wyłącz" : "Włącz"}
+          <View style={styles.buttonContainer}>
+            <Button
+                type="fancy"
+              onPress={() => handleSaveSettings(undefined)}
+            >
+              Zapisz
             </Button>
-            <Text style={[textBackground.background, textWithLights]}>
-              Świetlówka
-            </Text>
-            <Button onPress={() => handleSaveSettings("fluo_mode")}>
-              {state.fluo_mode ? "Wyłącz" : "Włącz"}
+            <Button
+                type="fancy"
+              onPress={() => handleSaveSettings("mode")}
+            >
+              {state.mode ? "Ręczny" : "Automatyczny"}
             </Button>
           </View>
-        )}
-        <View style={styles.buttonContainer}>
-          <Button
-            style={styles.button}
-            onPress={() => handleSaveSettings(undefined)}
-          >
-            Zapisz
-          </Button>
-          <Button
-            style={styles.button}
-            onPress={() => handleSaveSettings("mode")}
-          >
-            {state.mode ? "Ręczny" : "Automatyczny"}
-          </Button>
-        </View>
-      </View>
-    </DeviceContainer>
+      </PageContainer>
   );
 }
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  header:{
+    flexDirection: "row",
     alignItems: "center",
-    padding: 20,
-    marginBottom: 60,
+    justifyContent: "flex-end",
+    width: "90%",
+    gap: 10,
+  },
+  colorPickerContainer:{
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   colorPicker: {
-    marginTop: 20,
-    width: "70%",
-  },
-  message: {
-    position: "absolute",
-    top: 10,
+    width: "50%",
   },
   aquariumManual: {
-    width: "100%",
+    marginHorizontal:variables.spacing.md,
     justifyContent: "center",
     marginTop: 20,
     gap: 20,
   },
-  button: { width: "100%" },
   buttonContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     position: "absolute",
     bottom: 15,
-    width: "100%",
     gap: 10,
+  },
+  button:{
+    width: "100%",
+  },
+  text: {
+    color: variables.colors.accentPrimary,
+    fontSize: variables.typography.fontSize.xxl,
+    fontWeight: 500,
+    fontFamily: variables.typography.fontFamily,
+    textAlign: "center",
+    marginBottom:variables.spacing.xsm
   },
 });

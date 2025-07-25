@@ -1,19 +1,23 @@
-import { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 
 import useLampMutation from "@/src/hooks/queries/useLampMutation";
 import { ILamp } from "@/src/interfaces/ILamp";
-import DeviceContainer from "@/src/ui/DeviceContainer";
 import Message from "@/src/ui/Message";
-import InputTime from "@/src/ui/InputTime";
-import InputNumber from "@/src/ui/InputNumber";
-import InputRange from "@/src/ui/InputRange";
-import Button from "@/src/ui/Button";
+import InputTime from "@/src/ui/inputs/InputTime";
+import InputNumber from "@/src/ui/inputs/InputNumber";
+import InputRange from "@/src/ui/inputs/InputRange";
+import Button from "@/src/ui/buttons/Button";
 import { Text } from "@react-navigation/elements";
-import textBackground from "@/src/styles/textBackground";
-import textWithLights from "@/src/styles/textWithLights";
 import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
+import PageContainer from "@/src/ui/containers/PageContainer";
+import PageHeader from "@/src/ui/headers/PageHeader";
+import WifiStrength from "@/src/ui/WiFiStrength";
+import StyledLink from "@/src/ui/StyledLink";
+import variables from "@/src/styles/variables";
+import Tile from "@/src/ui/Tile";
+import TilesContainer from "@/src/ui/containers/TilesContainer";
 
 function reducer(state: ILamp, action: { type: string; payload: any }) {
   switch (action.type) {
@@ -54,96 +58,110 @@ export default function LampPage() {
   if (Object.keys(state).length === 0)
     return <ActivityIndicator size="small" color="#0000ff" />;
   return (
-    <DeviceContainer
-      name={state.name}
-      wifiStrength={state.wifi_strength}
-      isOnline={state.is_online}
-      id={state.id}
-    >
-      <View style={styles.container}>
-        {updateMutate.isSuccess && (
-          <Message style={styles.message} type="success">
-            Zapisano dane
-          </Message>
-        )}
-        {updateMutate.isError && (
-          <Message style={styles.message} type="error">
-            Wystąpił bład podczas zapisu
-          </Message>
-        )}
-        <View>
-          <Text style={[textBackground.background, textWithLights]}>
-            Godzina rozpoczęcia
-          </Text>
-          <InputTime
-            initialTime={state.light_start}
-            onChange={(time) =>
-              dispatch({ type: "set/light_start", payload: time })
-            }
-          />
+      <PageContainer>
+        <PageHeader title={device?.name} subtitle="Lampa">
+          <View style={styles.header}>
+            <StyledLink type="fancy" to={`/Settings/lamp/${state.id}/`}>
+              Ustawienia
+            </StyledLink>
+            <WifiStrength strength={state.is_online? state.wifi_strength: -100} size="large"/>
+          </View>
+        </PageHeader>
+        <View style={styles.container}>
+          <TilesContainer>
+            <Tile>
+              <View style={styles.sectionContainer}>
+                <InputTime
+                    extraStyle={styles.sectionInput}
+                    label="Rozpoczęcie"
+                    initialTime={state.light_start}
+                    onChange={(time) =>
+                        dispatch({ type: "set/light_start", payload: time })
+                    }
+                />
+                <InputTime
+                  extraStyle={styles.sectionInput}
+                  label="Zakończenie"
+                  initialTime={state.light_stop}
+                  onChange={(time) =>
+                    dispatch({ type: "set/light_stop", payload: time })
+                  }
+                />
+                </View>
+            </Tile>
+            <Tile>
+              <InputNumber
+                label="Czas świecenia [s]"
+                value={state.lighting_time}
+                onChange={(time) =>
+                  dispatch({ type: "set/lighting_time", payload: time })
+                }
+              />
+            </Tile>
+            <Tile>
+              <Text>
+                Jasność{` ${state.brightness} %`}
+              </Text>
+              <InputRange
+                value={state.brightness}
+                onChange={(brightness) =>
+                  dispatch({ type: "set/brightness", payload: brightness })
+                }
+                min={0}
+                max={100}
+              />
+            </Tile>
+            <Tile>
+              <Text>
+                Szybkość{` ${state.step} %`}
+              </Text>
+              <InputRange
+                value={state.step}
+                onChange={(step) => dispatch({ type: "set/step", payload: step })}
+                min={0}
+                max={100}
+              />
+            </Tile>
+          </TilesContainer>
+            {updateMutate.isSuccess && (
+                <Message timeout={1000} type="success">
+                  Zapisano dane
+                </Message>
+            )}
+            {updateMutate.isError && (
+                <Message timeout={1000} type="error">
+                  Wystąpił błąd podczas zapisu
+                </Message>
+            )}
+          <Button style={styles.button} type="fancy" onPress={updateLampData}>Zapisz</Button>
         </View>
-        <View>
-          <Text style={[textBackground.background, textWithLights]}>
-            Godzina zakończenia
-          </Text>
-          <InputTime
-            initialTime={state.light_stop}
-            onChange={(time) =>
-              dispatch({ type: "set/light_stop", payload: time })
-            }
-          />
-        </View>
-        <View>
-          <Text style={[textBackground.background, textWithLights]}>
-            Czas świecenia [s]
-          </Text>
-          <InputNumber
-            value={state.lighting_time}
-            onChange={(time) =>
-              dispatch({ type: "set/lighting_time", payload: time })
-            }
-          />
-        </View>
-        <View>
-          <Text style={[textBackground.background, textWithLights]}>
-            Jasność{` ${state.brightness} %`}
-          </Text>
-          <InputRange
-            value={state.brightness}
-            onChange={(brightness) =>
-              dispatch({ type: "set/brightness", payload: brightness })
-            }
-            min={0}
-            max={100}
-          />
-        </View>
-        <View>
-          <Text style={[textBackground.background, textWithLights]}>
-            Szybkość{` ${state.step} %`}
-          </Text>
-          <InputRange
-            value={state.step}
-            onChange={(step) => dispatch({ type: "set/step", payload: step })}
-            min={0}
-            max={100}
-          />
-        </View>
-        <Button onPress={updateLampData}>Zapisz</Button>
-      </View>
-    </DeviceContainer>
+    </PageContainer>
   );
 }
 
 const styles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap:variables.spacing.md
+  },
   container: {
     flex: 1,
-    padding: 20,
-    justifyContent: "space-around",
-    marginBottom: 60,
+    justifyContent: "space-between",
   },
-  message: {
-    position: "absolute",
-    width: "110%",
-    top: 0,
+  sectionContainer: {
+    flexDirection: "row",
+    marginVertical: 10,
+    gap:variables.spacing.xsm
   },
+  sectionInput: {
+    flex: 1 / 2,
+    alignItems: "center",
+  },
+  button:{
+    width:"90%",
+    alignSelf:"center",
+    marginBottom:variables.spacing.xs
+  }
 });

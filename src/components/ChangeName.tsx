@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Pressable, Modal } from "react-native";
+import {View, StyleSheet, Pressable, Modal, Text} from "react-native";
 import ChangeNameForm from "./ChangeNameForm";
 import Message from "../ui/Message";
 import { ICustomError } from "../interfaces/ICustomError";
 import useDeviceMutation from "@/src/hooks/queries/device/useDeviceMutation";
+import useRoomMutation from "@/src/hooks/queries/room/useRoomMutation";
 
 interface ChangeNameProps {
   children: React.ReactNode;
@@ -14,21 +15,32 @@ interface ChangeNameProps {
 export default function ChangeName({ children, type, id }: ChangeNameProps) {
   const [displayForm, setDisplayForm] = useState(false);
   const { updateDevice } = useDeviceMutation();
-  const mutation = updateDevice(id);
-
+  const deviceMutation = updateDevice(id);
+  const { updateRoom } = useRoomMutation();
+  const roomMutation = updateRoom(id);
   useEffect(() => {
-    if (mutation.isSuccess) {
+    if (deviceMutation.isSuccess || roomMutation.isSuccess) {
       setDisplayForm(false);
     }
-  }, [mutation.isSuccess]);
+  }, [deviceMutation.isSuccess, roomMutation.isSuccess]);
+
+  useEffect(() => {
+    deviceMutation.reset();
+    roomMutation.reset();
+  }, [displayForm]);
 
   function handleChangeName(name: string) {
-    mutation.mutate({ name });
+    if (type === "device") {
+      deviceMutation.mutate({name});
+    }else if (type === "room") {
+      roomMutation.mutate({name});
+    }
   }
-  const error: ICustomError | null = mutation.error;
+  const deviceError = deviceMutation.error as ICustomError
+  const roomError = roomMutation.error as ICustomError
   return (
     <>
-      <Pressable onPress={() => setDisplayForm(true)}>{children}</Pressable>
+      <Pressable onPress={() => setDisplayForm(true)}>{<Text style={styles.text}>{children}</Text>}</Pressable>
       <Modal
         animationType="fade"
         visible={displayForm}
@@ -42,9 +54,8 @@ export default function ChangeName({ children, type, id }: ChangeNameProps) {
             onClose={() => setDisplayForm(false)}
             onConfirm={handleChangeName}
           />
-          {error?.details?.non_field_errors && (
-            <Message type="error">{error.details.non_field_errors}</Message>
-          )}
+          <Message visible={!!deviceError?.details} type="error">{deviceError?.details?.non_field_errors}</Message>
+          <Message visible={!!roomError?.details} type="error">{roomError?.details?.name[0]}</Message>
         </View>
       </Modal>
     </>
@@ -57,4 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  text:{
+    color: "white",
+  }
 });

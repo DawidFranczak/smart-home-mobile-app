@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, View } from "react-native";
 import Message from "@/src/ui/Message";
-import ButtonContainer from "@/src/ui/ButtonContainer";
-import Button from "@/src/ui/Button";
+import ButtonContainer from "@/src/ui/containers/ButtonContainer";
+import Button from "@/src/ui/buttons/Button";
 import StyledLink from "@/src/ui/StyledLink";
-import InputText from "@/src/ui/InputText";
-import Header from "@/src/ui/Header";
+import InputText from "@/src/ui/inputs/InputText";
+import Header from "@/src/ui/headers/Header";
 import { CheckBox } from "@rneui/themed";
 import color from "@/src/styles/color";
 import CustomError from "@/src/utils/CustomError";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import useFetch from "@/src/hooks/useFetch";
 import {api} from "@/src/const/api";
+import FormContainer from "@/src/ui/containers/FormContainer";
 type visibility = "public" | "private";
 type errors = {
   name?: string[];
@@ -55,8 +56,8 @@ export default function AddRoom() {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={styles.container}
     >
-      <View style={styles.form}>
-        <Header>Dodaj nowy pokój</Header>
+      <FormContainer>
+        <Header type="large">Dodaj nowy pokój</Header>
         <InputText placeholder="Nazwa" onChange={setName} />
         {error?.name && <Message type="error">{error.name}</Message>}
         {success && <Message type="success">Dodano pokój</Message>}
@@ -83,10 +84,10 @@ export default function AddRoom() {
         )}
 
         <ButtonContainer>
-          <Button onPress={handleAdd}>Dodaj</Button>
+          <Button type="fancy" onPress={handleAdd}>Dodaj</Button>
           <StyledLink to="/">Zamknij</StyledLink>
         </ButtonContainer>
-      </View>
+      </FormContainer>
     </KeyboardAvoidingView>
   );
 }

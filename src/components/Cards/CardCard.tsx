@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { ICard } from "../../interfaces/IRfid";
 import useCardMutation from "../../hooks/queries/useCardMutation";
-import Header from "../../ui/Header";
+import Header from "../../ui/headers/Header";
 import formatDate from "@/src/utils/formatDate";
 import textBackground from "@/src/styles/textBackground";
 import color from "@/src/styles/color";
@@ -20,14 +20,14 @@ export default function CardCard({ card }: CardCardProps) {
     setConfirmDelete(false);
   };
   return (
-    <View style={[styles.card, textBackground.background]}>
+    <View style={[styles.card]}>
       <TouchableOpacity
         style={styles.delete}
         onPress={() => setConfirmDelete(true)}
       >
         <Image
           source={require("../../../assets/images/delete.png")}
-          style={styles.delete}
+          style={styles.deleteIcon}
         />
       </TouchableOpacity>
       <Header>{card.name}</Header>
@@ -47,6 +47,7 @@ export default function CardCard({ card }: CardCardProps) {
 
 const styles = StyleSheet.create({
   card: {
+    position: "relative",
     alignItems: "center",
     borderRadius: 10,
   },
@@ -60,9 +61,11 @@ const styles = StyleSheet.create({
   },
   delete: {
     position: "absolute",
-    top: 5,
-    right: 10,
+    top: -10,
+    right: -10,
+  },
+  deleteIcon: {
     width: 24,
     height: 24,
-  },
+  }
 });

@@ -1,26 +1,18 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { IAquarium } from "@/src/interfaces/IAquarium";
 import React from "react";
 import DeviceCardContainer from "@/src/components/DeviceCardContainer";
 import StatusIndicator from "@/src/ui/StatusIndicator";
-import formatAquariumDate from "@/src/utils/formatAquariumDate";
 import StyledLink from "@/src/ui/StyledLink";
-import color from "@/src/styles/color";
+import CardIconContainer from "@/src/ui/containers/CardIconContainer";
+import InfoCard from "@/src/ui/InfoCard";
+import TimeRange from "@/src/ui/TimeRange";
 
 interface AquariumCardProps {
   aquarium: IAquarium;
 }
 
 const AquariumCard: React.FC<AquariumCardProps> = ({ aquarium }) => {
-  const ledImage = aquarium.led_mode
-    ? require("../../../assets/images/led_on.png")
-    : require("../../../assets/images/led_off.png");
-  const fluoImage = aquarium.fluo_mode
-    ? require("../../../assets/images/light_on.png")
-    : require("../../../assets/images/light_off.png");
-  const modeImage = aquarium.mode
-    ? require("../../../assets/images/robot_on.png")
-    : require("../../../assets/images/robot_off.png");
   if (!aquarium) {
     return <View>Brak danych akwarium</View>;
   }
@@ -33,34 +25,35 @@ const AquariumCard: React.FC<AquariumCardProps> = ({ aquarium }) => {
       name={aquarium.name}
       id={aquarium.id}
     >
-      <View style={styles.indicatorContainer}>
-        <StatusIndicator
-          color={`rgb(${aquarium.color_r},${aquarium.color_g},${aquarium.color_b})`}
-        ></StatusIndicator>
-        <Image source={ledImage} style={styles.image} />
-        <Image source={fluoImage} style={styles.image} />
-      </View>
-      <Image source={modeImage} style={styles.image} />
-
-      {aquarium.mode && (
-        <>
-          <View style={styles.tekst}>
-            <Image source={ledImage} style={styles.image} />
-            <Text style={styles.tekst}>
-              {formatAquariumDate(aquarium.led_start)} -{" "}
-              {formatAquariumDate(aquarium.led_stop)}
-            </Text>
-          </View>
-          <View style={styles.tekst}>
-            <Image source={fluoImage} style={styles.image} />
-            <Text style={styles.tekst}>
-              {formatAquariumDate(aquarium.fluo_start)} -{" "}
-              {formatAquariumDate(aquarium.fluo_stop)}
-            </Text>
-          </View>
-        </>
+      {aquarium.mode || (
+        <CardIconContainer>
+          <InfoCard style={styles.item} icon="💡">
+            {aquarium.led_mode ? "ON" : "OFF"}
+          </InfoCard>
+          <InfoCard style={styles.item} icon="🔆">
+            {aquarium.fluo_mode ? "ON" : "OFF"}
+          </InfoCard>
+          <InfoCard style={styles.item}  icon="🎨">
+            <StatusIndicator
+                color={`rgb(${aquarium.color_r},${aquarium.color_g},${aquarium.color_b})`}
+            />
+          </InfoCard>
+          <InfoCard style={styles.item} icon="⚙️">
+            {aquarium.mode ? "Automat" : "Manual"}
+          </InfoCard>
+        </CardIconContainer>
       )}
-      <StyledLink type="button" to={`/Aquarium/${aquarium.id}/`}>
+      {aquarium.mode && (
+          <CardIconContainer extraStyles={styles.itemsContainer}>
+            <InfoCard style={styles.modeActive} icon="💡">
+              <TimeRange start={aquarium.led_start} end={aquarium.led_stop}/>
+            </InfoCard>
+            <InfoCard style={styles.modeActive} icon="🔆">
+              <TimeRange start={aquarium.fluo_start} end={aquarium.fluo_stop}/>
+            </InfoCard>
+          </CardIconContainer>
+      )}
+      <StyledLink type="fancy" to={`/Aquarium/${aquarium.id}/`}>
         Wybierz
       </StyledLink>
     </DeviceCardContainer>
@@ -68,17 +61,21 @@ const AquariumCard: React.FC<AquariumCardProps> = ({ aquarium }) => {
 };
 
 const styles = StyleSheet.create({
-  indicatorContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: 10,
+  itemsContainer:{
+    flex:1,
+    justifyContent:"space-around",
+    flexDirection:'column',
+    flexWrap:"nowrap",
   },
-  tekst: {
-    flexDirection: "row",
-    color: color.text.primary,
+  modeActive:{
+    flexDirection:"row",
+    flex:1,
+
   },
-  image: { width: 24, height: 24 },
+  item:{
+    width: '45%',
+    aspectRatio:2,
+  }
 });
 
 export default AquariumCard;
