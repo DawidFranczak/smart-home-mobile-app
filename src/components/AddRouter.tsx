@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import useRouterMutation from "../hooks/queries/useRouterMutation";
 import CustomError from "../utils/CustomError";
-import DeviceContainer from "../ui/containers/DeviceContainer";
 import InputText from "../ui/inputs/InputText";
 import Message from "../ui/Message";
 import Button from "../ui/buttons/Button";
 import { StyleSheet, View } from "react-native";
+import PageContainer from "@/src/ui/containers/PageContainer";
+import FormContainer from "@/src/ui/containers/FormContainer";
+import Header from "../ui/headers/Header";
+
 export default function AddRouter() {
   const [mac, setMac] = useState("");
   const [error, setError] = useState("");
@@ -22,22 +25,19 @@ export default function AddRouter() {
     mutation.mutate(mac);
   }
   return (
-    <DeviceContainer
-      name="Dodaj router"
-      wifiStrength={-100}
-      isOnline={false}
-      id={0}
-      editable={false}
-    >
-      <View style={styles.container}>
-        <InputText
-          placeholder="Podaj adres mac"
-          onChange={(value) => setMac(value)}
-        />
-        {error && <Message type="error">{error}</Message>}
-        <Button onPress={handleSaveRouter}>Dodaj</Button>
-      </View>
-    </DeviceContainer>
+      <PageContainer>
+        <View style={styles.container}>
+          <FormContainer>
+            <Header type="large">Dodaj router</Header>
+            <InputText
+              placeholder="Podaj adres mac"
+              onChange={(value) => setMac(value)}
+            />
+            {error && <Message type="error">{error}</Message>}
+            <Button type="fancy" onPress={handleSaveRouter}>Dodaj</Button>
+          </FormContainer>
+        </View>
+      </PageContainer>
   );
 }
 

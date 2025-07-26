@@ -3,12 +3,13 @@ import NavbarLink from "@/src/ui/NavbarLink";
 import { FlatList, StyleSheet, View } from "react-native";
 export default function More() {
   const data: INavbarLink[] = [
-    { text: "Wyloguj", url: "/Logout" },
+    { text: "Router", url: "/More/Router" },
     { text: "Kamery", url: "/More/Camera" },
     { text: "Zmiana hasła", url: "/More/ChangePassword" },
     { text: "Zmiana domu", url: "/More/HomeChange" },
     { text: "Kod domu", url: "/More/HomeCode" },
     { text: "Wyjdź z domu", url: "/More/HomeLeave" },
+    { text: "Wyloguj", url: "/Logout" },
   ];
 
   return (
