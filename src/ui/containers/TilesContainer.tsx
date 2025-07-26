@@ -1,8 +1,8 @@
-import {StyleSheet, View} from "react-native";
+import {StyleSheet, View, ViewStyle} from "react-native";
 import variables from "@/src/styles/variables";
 
-export default function TilesContainer({ children }: { children: React.ReactNode }) {
-    return <View style={styles.tilesContainer}>{children}</View>;
+export default function TilesContainer({ children ,style}: { children: React.ReactNode,style?:ViewStyle}) {
+    return <View style={[styles.tilesContainer, style]}>{children}</View>;
 }
 
 const styles = StyleSheet.create({

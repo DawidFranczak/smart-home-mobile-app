@@ -18,9 +18,6 @@ export default function DeviceEventDisplay({
 
   return (
       <View style={styles.container}>
-      <Text>
-        {event.event}-{event.action}-{event.device}
-      </Text>
         <Pressable style={styles.deleteIconContainer}  onPress={() => {
           setDisplayDeleteConfirm(true);
         }}>
@@ -29,6 +26,9 @@ export default function DeviceEventDisplay({
               source={require("../../assets/images/delete.png")}
           />
         </Pressable>
+        <Text>
+          {event.event}-{event.action}-{event.device}
+        </Text>
         <ConfirmDelete
             onCancel={() => setDisplayDeleteConfirm(false)}
             onConfirm={() => {
@@ -52,10 +52,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   deleteIconContainer:{
-    position: "absolute",
-    top: -30,
-    right: 0,
-    zIndex: 9999,
+    alignSelf: "flex-end",
   },
   deleteIcon: {
     width: 24,

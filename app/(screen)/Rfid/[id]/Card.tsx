@@ -1,18 +1,13 @@
 import CardCard from "@/src/components/Cards/CardCard";
 import {ICard, IRfid} from "@/src/interfaces/IRfid";
-import textBackground from "@/src/styles/textBackground";
-import textWithLights from "@/src/styles/textWithLights";
 import QueryInput from "@/src/ui/QueryInput";
 import StyledLink from "@/src/ui/StyledLink";
-import { useQueryClient } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
-  Dimensions,
   FlatList,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import useDeviceQuery from "@/src/hooks/queries/device/useDeviceQuery";
@@ -20,6 +15,7 @@ import PageContainer from "@/src/ui/containers/PageContainer";
 import PageHeader from "@/src/ui/headers/PageHeader";
 import TilesContainer from "@/src/ui/containers/TilesContainer";
 import Tile from "@/src/ui/Tile";
+import variables from "@/src/styles/variables";
 
 export default function RfidCard() {
   const [cards, setCards] = useState<ICard[]>([]);
@@ -51,18 +47,18 @@ export default function RfidCard() {
         </StyledLink>
       </View>
       </PageHeader>
-      <TilesContainer>
-        {cards.length > 0 && (
-            <FlatList
-                numColumns={2}
-                data={cards}
-                renderItem={({ item }) => (
-                    <Tile>{<CardCard card={item} />}</Tile>
-                )}
-                keyExtractor={(item) => item.id.toString()}
-            />
-        )}
-      </TilesContainer>
+        <TilesContainer>
+          {cards.length > 0 && (
+              <FlatList
+                  numColumns={2}
+                  data={cards}
+                  renderItem={({ item }) => (
+                      <Tile extraStyles={styles.tile}>{<CardCard card={item} />}</Tile>
+                  )}
+                  keyExtractor={(item) => item.id.toString()}
+              />
+          )}
+        </TilesContainer>
     </PageContainer>
   );
 }
@@ -71,5 +67,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 20,
+  },
+  tile:{
+    flex: 1/2,
+    margin:variables.spacing.xs,
   }
 });
