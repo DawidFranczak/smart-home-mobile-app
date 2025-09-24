@@ -1,5 +1,5 @@
-import {IDevice} from "../../../interfaces/IDevice.tsx";
-import usePrefetchDeviceQuery from "./usePrefetchDeviceQuery.tsx";
+import usePrefetchDeviceQuery from "@/src/hooks/queries/device/usePrefetchDeviceQuery";
+import {IDevice} from "@/src/interfaces/IDevice";
 
 export default function useDevicesQuery(deviceIds:number[]) {
     const {deviceData, status, isLoading, isError} = usePrefetchDeviceQuery();

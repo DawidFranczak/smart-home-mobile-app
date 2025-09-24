@@ -4,7 +4,6 @@ import { FlatList, StyleSheet, View } from "react-native";
 export default function More() {
   const data: INavbarLink[] = [
     { text: "Router", url: "/More/Router" },
-    { text: "Kamery", url: "/More/Camera" },
     { text: "Zmiana hasła", url: "/More/ChangePassword" },
     { text: "Zmiana domu", url: "/More/HomeChange" },
     { text: "Kod domu", url: "/More/HomeCode" },

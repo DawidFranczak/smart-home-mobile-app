@@ -1,6 +1,6 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext, useEffect,ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
-
+import { deleteSecureValue, getSecureValue } from "../utils/storage";
 import { api } from "../../src/const/api";
 interface AuthContextType {
   login: (token: string) => void;
@@ -20,8 +20,6 @@ export const useAuth = () => {
   return context;
 };
 
-import { ReactNode } from "react";
-import { deleteSecureValue, getSecureValue } from "../utils/storage";
 
 interface AuthProviderProps {
   children: ReactNode;
