@@ -14,17 +14,17 @@ export default function Logout() {
     mutationFn: () => deleteData(api.logout),
     onSuccess: () => {
       logout();
-      router.push("/Login");
       const allQueries = queryClient.getQueryCache().getAll();
       allQueries.forEach((query) => {
         if (query.queryKey[0] !== "token") {
           queryClient.removeQueries({ queryKey: query.queryKey });
         }
       });
+      router.push("/Login");
     },
   });
   useEffect(() => {
     mutation.mutate();
-  });
+  },[]);
   return null;
 }

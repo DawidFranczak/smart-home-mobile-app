@@ -1,4 +1,4 @@
-import { TextStyle, ViewStyle } from "react-native";
+import { TextStyle } from "react-native";
 
 export default interface INavbarLink {
   text: string;
@@ -15,6 +15,7 @@ export default interface INavbarLink {
     | "/More/HomeCode"
     | "/More/HomeLeave"
     | "/More/HomeChange"
+    | "/More/Router"
     | "/Logout";
   image?: any;
   textStyle?: TextStyle;

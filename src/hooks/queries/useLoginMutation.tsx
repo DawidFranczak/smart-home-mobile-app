@@ -3,7 +3,7 @@ import { api } from "@/src/const/api";
 import { saveSecureValue } from "@/src/utils/storage";
 export default function useLoginMutation(
     setError: (error: string) => void,
-    setAccess: (token: string) => void
+    login: (token: string) => void
 ) {
     return useMutation({
         mutationFn: (data: { username: string; password: string }) =>
@@ -24,7 +24,7 @@ export default function useLoginMutation(
                 setError(data.message);
                 return;
             }
-            setAccess(data.access);
+            login(data.access);
             await saveSecureValue("access", data.access);
             await saveSecureValue("refresh", data.refresh);
         },

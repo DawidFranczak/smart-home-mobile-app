@@ -40,7 +40,7 @@ export default function RfidPage() {
         </PageHeader>
         <TilesContainer>
           {rfidData.events?.map((event:IEvent) => (
-              <Tile key={event.id}>
+              <Tile extraStyles={styles.tile} key={event.id}>
                 <DeviceEventDisplay
                     key={`event-${event.id}`}
                     event={event}
@@ -53,48 +53,11 @@ export default function RfidPage() {
   );
 }
 
-// <View style={styles.container}>
-//   <View style={[styles.eventContainer, textBackground.background]}>
-//     {rfidData.events?.length === 0 && (
-//         <Text style={styles.eventText}>Brak akcji</Text>
-//     )}
-//     {rfidData.events?.map((event: IEvent) => (
-//         <DeviceEventDisplay
-//             key={event.id}
-//             event={event}
-//         />
-//     ))}
-//   </View>
-//   <ButtonContainer style={styles.buttonContainer}>
-//     <StyledLink type="fancy" to={`/Rfid/${rfidData.id}/Card/`}>
-//       Karty
-//     </StyledLink>
-//     <StyledLink
-//         type="fancy"
-//         to={`/Wizzard/Event/${rfidData.fun}/${rfidData.id}/`}
-//     >
-//       Ustawienia zdarzenia
-//     </StyledLink>
-//   </ButtonContainer>
-// </View>
 const styles = StyleSheet.create({
-  // container: {
-  //   flex: 1,
-  //   alignItems: "center",
-  //   justifyContent: "center",
-  //   padding: 20,
-  //   marginBottom: 60,
-  // },
   buttonContainer: {
     flexDirection: "row",
   },
-  // eventContainer: {
-  //   alignItems: "center",
-  // },
-  // eventText: {
-  //   fontSize: 18,
-  //   fontWeight: "bold",
-  //   color: color.text.primary,
-  //   textAlign: "center",
-  // },
+  tile: {
+    paddingTop: 10,
+  },
 });

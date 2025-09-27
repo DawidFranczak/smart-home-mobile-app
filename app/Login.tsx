@@ -18,15 +18,12 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const { login, access, setAccess } = useAuth();
-  const mutation = useLoginMutation(setError, setAccess);
+  const { login, access} = useAuth();
+  const mutation = useLoginMutation(setError, login);
   const router = useRouter();
   useEffect(() => {
-    if (access) {
-      login(access);
-      router.replace("/Home");
-    }
-  }, [login, access]);
+    if (access) router.replace("/Home");
+  }, [access, router]);
 
   const handleLogin = () => {
     if (username === "" || password === "") {
@@ -36,6 +33,7 @@ export default function Login() {
     setError(null);
     mutation.mutate({ username, password });
   };
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -64,7 +62,7 @@ export default function Login() {
           <Text style={styles.buttonText}>Zaloguj się</Text>
         </TouchableOpacity>
 
-        <StyledLink to="/Register" type="link">
+        <StyledLink to="/Register" type="fancy">
           Nie masz konta?
         </StyledLink>
 

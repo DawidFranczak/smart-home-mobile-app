@@ -1,5 +1,5 @@
-import {IRoom} from "../../../interfaces/IRoom.tsx";
-import usePrefetchRoomQuery from "./usePrefetchRoomQuery.tsx";
+import usePrefetchRoomQuery from "@/src/hooks/queries/room/usePrefetchRoomQuery";
+import {IRoom} from "@/src/interfaces/IRoom";
 
 export default function useRoomsQuery(roomsIds:number[]) {
     const {roomData,isLoading,isError} = usePrefetchRoomQuery();
